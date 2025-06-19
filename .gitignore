@@ -25,3 +25,12 @@ Thumbs.db
 .mvn/
 .gradle/
 build/
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+.factorypath
+
+# Spring Initializr
+HELP.md
