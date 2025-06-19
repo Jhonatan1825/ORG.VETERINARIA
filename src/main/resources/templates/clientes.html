@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <a href="/bienvenido" class="btn btn-success mb-4">
+        <i class="fas fa-arrow-left me-2"></i> Volver
+    </a>
+    
+    <!-- Mensajes de éxito y error -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Lista de Clientes</h2>
+        <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formCliente">
+            <i class="bi bi-plus-circle me-2"></i>Agregar Cliente
+        </button>
+    </div>
+
+    <!-- Formulario Agregar Cliente -->
+    <div id="formCliente" class="collapse mb-4">
+        <div class="card card-body">
+            <h5 class="card-title" id="formTitle">Nuevo Cliente</h5>
+            <form action="/clientes/guardar" method="post" id="clienteForm">
+                <input type="hidden" name="idCliente" id="clienteId" value="0">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" id="nombre"
+                               placeholder="Nombre del cliente" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Apellido</label>
+                        <input type="text" class="form-control" name="apellido" id="apellido"
+                               placeholder="Apellido del cliente" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">DNI</label>
+                        <input type="text" class="form-control" name="dni" id="dni"
+                               placeholder="12345678" maxlength="8" pattern="[0-9]{8}" required>
+                        <div class="form-text">Ingrese 8 dígitos numéricos</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" name="telefono" id="telefono"
+                               placeholder="912345678" maxlength="9" pattern="[0-9]{9}" required>
+                        <div class="form-text">Ingrese 9 dígitos numéricos</div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" class="form-control" name="direcion" id="direccion"
+                               placeholder="Av. Perú 123" required>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success" id="btnGuardar">
+                        <i class="bi bi-save me-2"></i>Guardar
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">
+                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla Clientes -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cliente, iterStat : ${clientes}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${cliente.nombre}"></td>
+                    <td th:text="${cliente.apellido}"></td>
+                    <td th:text="${cliente.dni}"></td>
+                    <td th:text="${cliente.telefono}"></td>
+                    <td th:text="${cliente.direcion}"></td>
+					<td>
+					    <button class="btn btn-warning btn-sm me-1" 
+					            th:onclick="'editarCliente(' + ${cliente.idCliente} + ')'">
+					        <i class="bi bi-pencil"></i> Editar
+					    </button>
+					    <button class="btn btn-danger btn-sm" 
+					            th:onclick="'confirmarEliminar(' + ${cliente.idCliente} + ')'">
+					        <i class="bi bi-trash"></i> Eliminar
+					    </button>
+					    <button class="btn btn-info btn-sm" 
+					            th:onclick="'location.href=\'/citas/form/' + ${cliente.idCliente} + '\';'">
+					        <i class="bi bi-calendar-plus"></i> Crear Cita
+					    </button>
+					</td>
+                <tr th:if="${#lists.isEmpty(clientes)}">
+                    <td colspan="7" class="text-center text-muted">
+                        <i class="bi bi-inbox display-1"></i>
+                        <p class="mt-2">No hay clientes registrados</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Función para editar cliente
+    function editarCliente(id) {
+        fetch('/clientes/editar/' + id)
+            .then(response => response.json())
+            .then(cliente => {
+                // Rellenar el formulario con los datos del cliente
+                document.getElementById('clienteId').value = cliente.idCliente;
+                document.getElementById('nombre').value = cliente.nombre;
+                document.getElementById('apellido').value = cliente.apellido;
+                document.getElementById('dni').value = cliente.dni;
+                document.getElementById('telefono').value = cliente.telefono;
+                document.getElementById('direccion').value = cliente.direcion;
+                
+                // Cambiar la acción del formulario para actualizar
+                document.getElementById('clienteForm').action = '/clientes/actualizar';
+                
+                // Cambiar el título y botón
+                document.getElementById('formTitle').textContent = 'Editar Cliente';
+                document.getElementById('btnGuardar').innerHTML = '<i class="bi bi-pencil me-2"></i>Actualizar';
+                
+                // Mostrar el formulario
+                var collapse = new bootstrap.Collapse(document.getElementById('formCliente'), {
+                    show: true
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('No se pudo cargar los datos del cliente');
+            });
+    }
+
+    // Función para confirmar eliminación
+    function confirmarEliminar(id) {
+        if (confirm('¿Estás seguro de que deseas eliminar este cliente?')) {
+            eliminarCliente(id);
+        }
+    }
+
+    // Función para eliminar cliente
+    function eliminarCliente(id) {
+        fetch('/clientes/eliminar/' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Cliente eliminado exitosamente');
+                location.reload();
+            } else {
+                alert('Error al eliminar el cliente');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('No se pudo eliminar el cliente');
+        });
+    }
+
+    // Función para limpiar formulario
+    function limpiarFormulario() {
+        document.getElementById('clienteForm').reset();
+        document.getElementById('clienteId').value = '0';
+        document.getElementById('clienteForm').action = '/clientes/guardar';
+        document.getElementById('formTitle').textContent = 'Nuevo Cliente';
+        document.getElementById('btnGuardar').innerHTML = '<i class="bi bi-save me-2"></i>Guardar';
+        
+        // Ocultar el formulario
+        var collapse = new bootstrap.Collapse(document.getElementById('formCliente'), {
+            hide: true
+        });
+    }
+
+    // Validación de DNI y teléfono
+    document.addEventListener('DOMContentLoaded', function() {
+        const dniInput = document.getElementById('dni');
+        const telefonoInput = document.getElementById('telefono');
+
+        dniInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        telefonoInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    });
+
+    // Limpiar formulario cuando se cierra
+    document.getElementById('formCliente').addEventListener('hidden.bs.collapse', function () {
+        limpiarFormulario();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido - Sistema</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index.css}">
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="/logout" class="logout-btn">
+            <i class="fas fa-sign-out-alt me-2"></i> Salir del sistema
+        </a>
+        <div class="user-greeting" th:text="'Hola, ' + ${usuario.nombre} + '!'">
+            Hola, Administrador!
+        </div>
+    </div>
+
+   
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="welcome-container mt-5">
+                    <div class="welcome-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h1 class="display-5 mb-0" style="color: #333;">¡Bienvenido al Sistema!</h1>
+                    </div>
+
+                    <div class="crud-buttons d-flex flex-wrap justify-content-center gap-3">
+                        <a href="/clientes" class="btn btn-outline-primary">
+                            <i class="fas fa-users me-2"></i> Ir a Clientes
+                        </a>
+						<a href="/citas" class="btn btn-outline-primary">
+						    <i class="fas fa-calendar-alt me-2"></i> Ir a Cita
+						</a>
+                        <a href="/veterinarios" class="btn btn-outline-primary">
+                            <i class="fas fa-file-medical me-2"></i> Veterinarios
+                        </a>
+                        <a href="/mascotas" class="btn btn-outline-primary">
+                            <i class="fas fa-paw me-2"></i> Ir a Mascotas
+                        </a>
+                        <a href="/servicios" class="btn btn-outline-primary">
+                            <i class="fas fa-concierge-bell me-2"></i> Ir a Servicios
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
