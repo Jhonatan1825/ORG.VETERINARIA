@@ -15,7 +15,7 @@
     <a href="/bienvenido" class="btn btn-success mb-4">
         <i class="fas fa-arrow-left me-2"></i> Volver
     </a>
-    
+	
     <!-- Mensajes de éxito y error -->
     <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="bi bi-check-circle me-2"></i>
@@ -34,6 +34,11 @@
         <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formCliente">
             <i class="bi bi-plus-circle me-2"></i>Agregar Cliente
         </button>
+		<a href="/citas" class="btn btn-outline-primary">
+			 <i class="fas fa-calendar-alt me-2"></i> Ver todas las Citas
+				</a>
+		    
+									
     </div>
 
     <!-- Formulario Agregar Cliente -->
