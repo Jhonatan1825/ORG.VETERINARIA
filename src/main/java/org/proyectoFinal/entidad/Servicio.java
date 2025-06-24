@@ -30,8 +30,8 @@ public class Servicio implements Serializable {
 	@Column(name="id_servicio")
 	private Integer id_servicio;
 	
-	@Column(name="nombre_servicio")
-	private String nombre_servicio;
+	@Column(name = "nombre_servicio")
+	private String nombreServicio;
 	
 	@Column(name="descripcion")
 	private String descripcion;

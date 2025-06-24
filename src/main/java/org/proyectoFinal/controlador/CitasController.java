@@ -8,27 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/citas")
 public class CitasController {
 
-	@Autowired
-	private CitasUseCase citasUseCase;
+    @Autowired
+    private CitasUseCase citasUseCase;
 
     @Autowired
     private ClienteServicio clienteServicio;
 
     @Autowired
-    private MascotaServicio mascotaServicio;  // <-- NECESARIO para el Combo de mascotas
+    private MascotaServicio mascotaServicio;
 
     @Autowired
     private VeterinarioServicio veterinarioServicio;
 
     @Autowired
-    private ServicioServicio servicioServicio; // <-- NECESARIO para el Combo de servicios
+    private ServicioServicio servicioServicio;
 
-    // Muestra el formulario para crear cita con datos del cliente y combos
+    //  MÉTODO para el modal
     @GetMapping("/form/{idCliente}")
     public String mostrarFormularioCita(@PathVariable("idCliente") int idCliente, Model model) {
         Cliente cliente = clienteServicio.buscarPorId(idCliente).orElse(null);
@@ -39,29 +40,29 @@ public class CitasController {
         Citas nuevaCita = new Citas();
         nuevaCita.setCliente(cliente);
 
-        List<Mascotas> mascotasCliente = mascotaServicio.listarPorCliente(idCliente);  // <-- mascotas del cliente
-        List<Veterinario> veterinarios = veterinarioServicio.listarTodos();
-        List<Servicio> servicios = servicioServicio.listarTodos();
-
         model.addAttribute("cliente", cliente);
         model.addAttribute("nuevaCita", nuevaCita);
-        model.addAttribute("mascotas", mascotasCliente);
-        model.addAttribute("veterinarios", veterinarios);
-        model.addAttribute("servicios", servicios);
+        model.addAttribute("mascotas", mascotaServicio.listarPorCliente(idCliente));
+        model.addAttribute("veterinarios", veterinarioServicio.listarTodos());
+        model.addAttribute("servicios", servicioServicio.listarTodos());
 
-        return "crearCita"; // <-- formulario HTML
+        return "formCita :: formCita"; // Retorna solo el fragmento del modal
     }
 
+    // Guardar la cita
     @PostMapping("/guardar")
-    public String guardarCita(@ModelAttribute("nuevaCita") Citas cita) {
+    public String guardarCita(@ModelAttribute("nuevaCita") Citas cita,
+                              RedirectAttributes redirectAttributes) {
         citasUseCase.registrarCita(cita);
+        redirectAttributes.addFlashAttribute("success", "✅ Cita registrada exitosamente.");
         return "redirect:/clientes";
     }
+
+    // Listar todas las citas
     @GetMapping
     public String listarCitas(Model model) {
         List<Citas> citas = citasUseCase.listarTodas();
         model.addAttribute("citas", citas);
         return "listaCitas";
     }
-
 }

@@ -1,0 +1,41 @@
+<!-- fragments/formCita.html -->
+<div th:fragment="formCita">
+    <form th:action="@{/citas/guardar}" method="post" th:object="${nuevaCita}">
+        <input type="hidden" th:field="*{cliente.idCliente}" />
+
+        <div class="mb-3">
+            <label class="form-label">Motivo</label>
+            <input type="text" class="form-control" th:field="*{motivo}" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Fecha y Hora</label>
+            <input type="datetime-local" class="form-control" th:field="*{fecha}" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Mascota</label>
+            <select class="form-select" th:field="*{mascota.id_mascota}" required>
+                <option th:each="m : ${mascotas}" th:value="${m.id_mascota}" th:text="${m.nombre}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Veterinario</label>
+            <select class="form-select" th:field="*{veterinario.id_veterinario}" required>
+                <option th:each="v : ${veterinarios}" th:value="${v.id_veterinario}" th:text="${v.nombre}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Servicio</label>
+            <select class="form-select" th:field="*{servicio.id_servicio}" required>
+                <option th:each="s : ${servicios}" th:value="${s.id_servicio}" th:text="${s.nombreServicio}"></option>
+            </select>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Guardar Cita</button>
+        </div>
+    </form>
+</div>

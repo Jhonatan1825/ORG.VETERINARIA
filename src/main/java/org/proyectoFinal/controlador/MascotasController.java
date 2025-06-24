@@ -52,8 +52,21 @@ public class MascotasController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al guardar la mascota: " + e.getMessage());
         }
-        return "redirect:/mascotas";
+        return "redirect:/clientes";
     }
+ // Cargar formulario de nueva mascota
+    @GetMapping("/mascotas/form/{idCliente}")
+    public String mostrarFormularioMascota(@PathVariable int idCliente, Model model) {
+        Optional<Cliente> clienteOpt = clienteRepositorio.findById(idCliente);
+        if (clienteOpt.isPresent()) {
+            Mascotas mascota = new Mascotas();
+            mascota.setCliente(clienteOpt.get());
+            model.addAttribute("mascota", mascota);
+            return "formMascota :: form"; // <-- nombre de archivo y fragmento
+        }
+        return "error/404";}
+
+    
 
     // Obtener mascota por ID (para edición por AJAX)
     @GetMapping("/mascotas/editar/{id}")
