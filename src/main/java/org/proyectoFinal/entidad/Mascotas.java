@@ -50,5 +50,8 @@ public class Mascotas implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_cliente")
 	private Cliente cliente;
+	
+	@Column(name = "imagen")
+	private String imagen;
 
 }

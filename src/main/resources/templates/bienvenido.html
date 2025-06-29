@@ -6,52 +6,328 @@
     <title>Bienvenido - Sistema</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/index.css}">
+    <style>
+         /* Estilo para la barra lateral */
+    .sidebar {
+        height: calc(100vh - 60px); /* Ajustamos la altura para que no se solape con la barra superior */
+        width: 140px; /* Ancho de la barra lateral */
+        position: fixed;
+        top: 80px; /* Movemos la barra lateral hacia abajo (antes estaba en 60px) */
+        left: 0;
+        background-color: #0071bc; /* Azul más oscuro para la barra lateral */
+        padding-top: 20px;
+        padding-left: 5px; /* Reducimos el padding a la izquierda */
+        transition: all 0.3s ease-in-out; /* Añadimos una transición para animaciones */
+    }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 10px 0;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center; /* Alineamos los íconos al centro */
+            transition: background-color 0.3s ease;
+            padding-left: 10px; /* Ajuste del padding para que los íconos no se solapen */
+        }
+
+        .sidebar a:hover {
+            background-color: #0056b3; /* Cambia el fondo cuando se pasa el ratón */
+            transform: translateX(10px); /* Efecto de desplazamiento */
+        }
+
+        /* Barra superior */
+        .top-bar {
+            background-color: #0071bc; /* Azul para la barra superior */
+            color: white;
+            padding: 20px 20px; /* Aumentamos el padding para hacer la barra más gruesa */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .top-bar .user-greeting {
+            font-weight: 600;
+            margin-left: 20px; /* Mueve el saludo un poco más a la derecha */
+        }
+
+        .top-bar .logout-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .top-bar .logout-btn:hover {
+            color: #f8f9fa;
+        }
+
+        /* Estilo de Sistema Veterinaria en la barra lateral */
+        .sidebar h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar h3 i {
+            margin-right: 10px;
+        }
+
+        /* Contenido principal ajustado para que ocupe el espacio entre el footer superior e inferior */
+        .main-content {
+            margin-left: 140px; /* Ajustamos el contenido para que se acomode al nuevo tamaño de la barra lateral */
+            margin-top: 0px; /* Lo movemos para que esté pegado a la barra superior */
+            padding: 20px;
+            min-height: calc(100vh - 60px); /* Aseguramos que el contenido ocupe todo el espacio visible */
+            padding-bottom: 100px; /* Añadimos más espacio para el footer */
+        }
+
+        /* Contenedor de la bienvenida */
+        .welcome-container {
+            text-align: center; /* Centra el texto */
+            background-color: #f8f9fa; /* Fondo suave para la bienvenida */
+            padding: 50px 20px; /* Espaciado superior e inferior */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega sombra para un efecto de profundidad */
+            margin-top: 30px; /* Espacio superior */
+            margin-bottom: 30px; /* Espacio inferior */
+            max-width: 800px; /* Asegura que no se estire demasiado en pantallas grandes */
+            margin-left: auto;
+            margin-right: auto; /* Centra el contenedor */
+        }
+
+        /* Título principal de bienvenida */
+        .welcome-header h1 {
+            font-size: 2.5rem; /* Aumentamos el tamaño del texto */
+            font-weight: 700;
+            color: #333; /* Color oscuro para un buen contraste */
+            margin-bottom: 20px; /* Espacio debajo del título */
+        }
+
+        /* Icono de bienvenida */
+        .welcome-header i {
+            font-size: 3rem; /* Tamaño grande para el icono */
+            color: #0071bc; /* Color acorde con el diseño */
+            margin-bottom: 20px; /* Espacio debajo del icono */
+        }
+
+        /* Descripción del sistema */
+        .welcome-description {
+            font-size: 1.1rem;
+            color: #666; /* Color más suave para la descripción */
+            line-height: 1.6; /* Aumenta la altura de la línea para mejor legibilidad */
+            max-width: 600px; /* Limitar el ancho del texto */
+            margin: 0 auto; /* Centra la descripción */
+        }
+
+        /* Estilos de los botones (si decides reintroducirlos más adelante) */
+        .crud-buttons a {
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #0071bc;
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .crud-buttons a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Carrusel de imágenes de mascotas */
+        #mascotasCarrusel {
+            margin: 30px auto;
+            max-width: 800px; /* Ajustamos el tamaño máximo del carrusel */
+            border-radius: 10px; /* Bordes redondeados */
+        }
+
+        .carousel-inner img {
+            object-fit: contain; /* Asegura que la imagen se ajuste sin recortes */
+            max-height: 400px; /* Limita la altura máxima de las imágenes */
+            width: 100%; /* Asegura que la imagen se ajuste al ancho del carrusel */
+            border-radius: 10px; /* Bordes redondeados en las imágenes */
+        }
+
+        /* Footer fijo */
+        .footer-custom {
+            background-color: #0071bc; /* Azul para el footer */
+            color: white;
+            text-align: center;
+            padding: 10px; /* Espacio reducido en el footer */
+            font-size: 0.875rem; /* Tamaño de la fuente ajustado */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
+
+        .footer-custom a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .footer-custom a:hover {
+            color: #f8f9fa;
+            text-decoration: underline;
+        }
+
+        /* Estilo de los íconos en el footer */
+        .footer-custom i {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .footer-custom i:hover {
+            transform: scale(1.2); /* Efecto de aumento de tamaño */
+        }
+
+    </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <a href="/logout" class="logout-btn">
-            <i class="fas fa-sign-out-alt me-2"></i> Salir del sistema
+    <!-- Barra lateral -->
+    <div class="sidebar">
+        <h3>
+            <i class="fas fa-dog"></i> Sistema Veterinaria
+        </h3>
+        <a href="/clientes">
+            <i class="fas fa-users fa-2x"></i>
+            <div>Clientes</div>
         </a>
-        <div class="user-greeting" th:text="'Hola, ' + ${usuario.nombre} + '!'">
-            Hola, Administrador!
-        </div>
+        <a href="/mascotas">
+            <i class="fas fa-paw fa-2x"></i>
+            <div>Mascotas</div>
+        </a>
+        <a href="/citas">
+            <i class="fas fa-calendar-alt fa-2x"></i>
+            <div>Citas</div>
+        </a>
+        <a href="/veterinarios">
+            <i class="fas fa-file-medical fa-2x"></i>
+            <div>Veterinarios</div>
+        </a>
+        <a href="/servicio">
+            <i class="fas fa-concierge-bell fa-2x"></i>
+            <div>Servicios</div>
+        </a>
+        <!-- Nueva opción de Reportes -->
+        <a href="/reportes">
+            <i class="fas fa-chart-line fa-2x"></i>
+            <div>Reportes</div>
+        </a>
+        <!-- Nueva opción de Facturación -->
+        <a href="/facturacion">
+            <i class="fas fa-file-invoice-dollar fa-2x"></i>
+            <div>Facturación</div>
+        </a>
     </div>
 
-   
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="welcome-container mt-5">
-                    <div class="welcome-header">
-                        <i class="fas fa-check-circle"></i>
-                        <h1 class="display-5 mb-0" style="color: #333;">¡Bienvenido al Sistema!</h1>
+
+<!-- Barra superior -->
+<div class="top-bar d-flex justify-content-between align-items-center">
+    <!-- Saludo en la parte izquierda -->
+    <div class="user-greeting" th:text="'Hola, ' + ${usuario.nombre} + '!'"
+         style="margin-top: -20px;"> <!-- Ajustamos el margen superior aquí para moverlo más arriba -->
+        Hola, Administrador!
+    </div>
+
+    <!-- Contenedor centrado con el nombre de la veterinaria y el icono -->
+    <div class="d-flex justify-content-center align-items-center w-100">
+        <i class="fas fa-dog me-2" style="font-size: 1.5rem;"></i> <!-- Icono de perro -->
+        <span style="font-size: 1.5rem; font-weight: bold;">Veterinaria Vida Animal</span> <!-- Nombre del sistema -->
+    </div>
+
+    <!-- Botón de salir -->
+    <a href="/logout" class="logout-btn">
+        <i class="fas fa-sign-out-alt me-2"></i> Salir del sistema
+    </a>
+</div>
+
+
+
+
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="welcome-container mt-5">
+                        <div class="welcome-header">
+                            <i class="fas fa-check-circle"></i>
+                            <h1 class="display-5 mb-0" style="color: #333;">¡Bienvenido al Sistema!</h1>
+                        </div>
+
+                        <p class="welcome-description">
+                            Este sistema está diseñado para gestionar la información de las mascotas, veterinarios, citas y clientes de manera eficiente y profesional. Con él, podrás organizar todos los datos de forma sencilla y ágil, optimizando el flujo de trabajo de tu veterinaria.
+                        </p>
                     </div>
 
-                    <div class="crud-buttons d-flex flex-wrap justify-content-center gap-3">
-                        <a href="/clientes" class="btn btn-outline-primary">
-                            <i class="fas fa-users me-2"></i> Ir a Clientes
-                        </a>
-						<a href="/citas" class="btn btn-outline-primary">
-						    <i class="fas fa-calendar-alt me-2"></i> Ir a Cita
-						</a>
-                        <a href="/veterinarios" class="btn btn-outline-primary">
-                            <i class="fas fa-file-medical me-2"></i> Veterinarios
-                        </a>
-                        <a href="/mascotas" class="btn btn-outline-primary">
-                            <i class="fas fa-paw me-2"></i> Ir a Mascotas
-                        </a>
-                        <a href="/servicio" class="btn btn-outline-primary">
-                            <i class="fas fa-concierge-bell me-2"></i> Ir a Servicios
-                        </a>
-                    </div>
+                    <!-- Carrusel de imágenes de mascotas -->
+                   <div id="mascotasCarrusel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="images/m1.png" class="d-block w-100" alt="Mascota 1">
+        </div>
+        <div class="carousel-item">
+            <img src="images/m2.png" class="d-block w-100" alt="Mascota 2">
+        </div>
+        <div class="carousel-item">
+            <img src="images/m3.png" class="d-block w-100" alt="Mascota 3">
+        </div>
+        <div class="carousel-item">
+            <img src="images/m4.png" class="d-block w-100" alt="Mascota 3">
+        </div>
+        <div class="carousel-item">
+            <img src="images/m5.png" class="d-block w-100" alt="Mascota 3">
+        </div>
+        <div class="carousel-item">
+            <img src="images/m6.png" class="d-block w-100" alt="Mascota 3">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mascotasCarrusel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mascotasCarrusel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer Profesional -->
+    <footer class="footer-custom">
+        <p>© 2025 Veterinaria Vida Animal - Todos los derechos reservados</p>
+        <div>
+            <a href="https://www.facebook.com" class="text-white">
+                <i class="fab fa-facebook-square"></i>
+            </a>
+            <a href="https://www.instagram.com" class="text-white">
+                <i class="fab fa-instagram-square"></i>
+            </a>
+            <a href="https://twitter.com" class="text-white">
+                <i class="fab fa-twitter-square"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

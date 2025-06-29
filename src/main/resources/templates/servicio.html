@@ -4,146 +4,360 @@
   <meta charset="UTF-8">
   <title>Servicios</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Font Awesome CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Estilo adicional para el encabezado */
+        .section-header {
+            background-color: #0071bc; 
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            height: calc(100vh - 60px); 
+            width: 140px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            background-color: #0071bc;
+            padding-top: 20px;
+            padding-left: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 10px 0;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            padding-left: 10px;
+        }
+
+        .sidebar a:hover {
+            background-color: #0056b3;
+            transform: translateX(10px);
+        }
+
+        /* Barra superior */
+        .top-bar {
+            background-color: #0071bc;
+            color: white;
+            padding: 20px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .top-bar .user-greeting {
+            font-weight: 600;
+            margin-left: 20px;
+        }
+
+        .top-bar .logout-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .top-bar .logout-btn:hover {
+            color: #f8f9fa;
+        }
+             /* Estilo de Sistema Veterinaria en la barra lateral */
+        .sidebar h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar h3 i {
+            margin-right: 10px;
+        }
+        
+
+        /* Contenido principal */
+        .main-content {
+            margin-left: 200px; 
+            margin-top: 60px;
+            padding: 20px;
+            min-height: calc(100vh - 120px); 
+            padding-bottom: 100px;
+        }
+
+        /* Footer */
+        .footer-custom {
+            background-color: #0071bc;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.875rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
+
+        .footer-custom a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .footer-custom a:hover {
+            color: #f8f9fa;
+            text-decoration: underline;
+        }
+
+        /* Estilo para tarjetas */
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Centrado de tarjetas */
+        .row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .col-md-4 {
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para los iconos dentro de las tarjetas */
+        .card .icon {
+            font-size: 1.5rem;
+            margin: 5px;
+            color: #0071bc;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card .icon:hover {
+            color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Asegurar que los iconos estén alineados en una fila dentro de la tarjeta */
+        .card .icon-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
-<div class="container mt-5">
-  <a href="/bienvenido" class="btn btn-success mb-4">
-    <i class="bi bi-arrow-left me-2"></i>Volver
-  </a>
-
-  <!-- Mensajes -->
-  <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
-    <i class="bi bi-check-circle me-2"></i>
-    <span th:text="${success}"></span>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-  </div>
-  <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
-    <i class="bi bi-exclamation-triangle me-2"></i>
-    <span th:text="${error}"></span>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-  </div>
-
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Lista de Servicios</h2>
-    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formServicio">
-      <i class="bi bi-plus-circle me-2"></i>Agregar Servicio
-    </button>
-  </div>
-
-  <!-- Formulario Agregar/Editar Servicio -->
-  <div id="formServicio" class="collapse mb-4">
-    <div class="card card-body">
-      <h5 class="card-title" id="formTitle">Nuevo Servicio</h5>
-      <form th:action="@{/servicio/guardar}" th:object="${servicio}" method="post" id="servicioForm">
-        <input type="hidden" th:field="*{id_servicio}" id="servicioId"/>
-
-        <div class="mb-3">
-          <label>Nombre del Servicio</label>
-          <input type="text" class="form-control" th:field="*{nombreServicio}" required />
+	<!-- Barra lateral -->
+			<div class="sidebar">
+				<a href="/bienvenido" class="text-white text-decoration-none">
+				    <h3><i class="fas fa-paw"></i> Sistema Veterinaria</h3>
+				</a>
+			    <a href="/clientes"><i class="fas fa-users fa-2x"></i><div>Clientes</div></a>
+			    <a href="/mascotas"><i class="fas fa-paw fa-2x"></i><div>Mascotas</div></a>
+			    <a href="/citas"><i class="fas fa-calendar-alt fa-2x"></i><div>Citas</div></a>
+			    <a href="/veterinarios"><i class="fas fa-file-medical fa-2x"></i><div>Veterinarios</div></a>
+			    <a href="/servicio"><i class="fas fa-concierge-bell fa-2x"></i><div>Servicios</div></a>
+			    <a href="/reportes"><i class="fas fa-chart-line fa-2x"></i><div>Reportes</div></a>
+			    <a href="/facturacion"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+				<a href="javascript:history.back()" class="btn btn-primary mb-4">
+				    <i class="fas fa-arrow-left me-2"></i> Volver
+				</a>
+			</div>
+    <!-- Barra superior -->
+    <div class="top-bar d-flex justify-content-between align-items-center">
+        <div class="user-greeting">
+            Hola, Administrador!
         </div>
-
-        <div class="mb-3">
-          <label>Descripción</label>
-          <textarea class="form-control" th:field="*{descripcion}" required></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label>Costo</label>
-          <input type="number" class="form-control" th:field="*{costo}" step="0.01" required />
-        </div>
-
-        <button type="submit" class="btn btn-primary" id="btnGuardar">
-          <i class="bi bi-save me-2"></i>Guardar
-        </button>
-      </form>
+        
+        
+        
+        <a href="/logout" class="logout-btn">
+            <i class="fas fa-sign-out-alt me-2"></i> Salir del sistema
+        </a>
     </div>
-  </div>
 
-  <!-- Tabla de Servicios -->
-  <div class="table-responsive">
-    <table class="table table-striped table-hover align-middle">
-      <thead class="table-dark">
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Costo</th>
-          <th>Descripción</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="srv, iterStat : ${servicios}">
-          <td th:text="${iterStat.count}"></td>
-          <td th:text="${srv.nombreServicio}"></td>
-          <td th:text="${srv.costo}"></td>
-          <td th:text="${srv.descripcion}"></td>
-          <td>
-            <button class="btn btn-warning btn-sm me-1"
-                    th:onclick="'editarServicio(' + ${srv.id_servicio} + ')'">
-              <i class="bi bi-pencil"></i> Editar
-            </button>
+    <!-- Contenido principal -->
+    <div class="main-content">
+		<!-- Mensajes -->
+				   <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+				       <i class="bi bi-check-circle me-2"></i>
+				       <span th:text="${success}"></span>
+				       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				   </div>
+				   <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+				       <i class="bi bi-exclamation-triangle me-2"></i>
+				       <span th:text="${error}"></span>
+				       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				   </div>
+				   
+        <div class="container">
+            <div class="section-header">
+               <h2>Registros de Servicios</h2>
+                <p>Gestiona los registros de los servicios que ofrecemos a tus mascotas para que se sientan seguras.</p>
+                </div>
+                 <div class="d-flex justify-content-between align-items-center mb-4">
+                <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formServicio">
+                    <i class="bi bi-plus-circle me-2"></i>Agregar Servicio
+                </button>
+            </div>
 
-            <form th:action="@{/servicio/eliminar/{id}(id=${srv.id_servicio})}" method="post" style="display:inline;">
-              <button type="submit" class="btn btn-danger btn-sm"
-                      onclick="return confirm('¿Seguro de eliminar este servicio?')">
-                <i class="bi bi-trash"></i> Eliminar
-              </button>
-            </form>
-          </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(servicios)}">
-          <td colspan="5" class="text-center text-muted">
-            <i class="bi bi-inbox display-1"></i>
-            <p class="mt-2">No hay servicios registrados</p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+            <!-- Formulario Agregar/Editar Servicio -->
+            <div id="formServicio" class="collapse mb-4">
+                <div class="card card-body">
+                    <h5 class="card-title" id="formTitle">Nuevo Servicio</h5>
+                    <form th:action="@{/servicio/guardar}" th:object="${servicio}" method="post" id="servicioForm">
+                        <input type="hidden" th:field="*{id_servicio}" id="servicioId"/>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                        <div class="mb-3">
+                            <label>Nombre del Servicio</label>
+                            <input type="text" class="form-control" th:field="*{nombreServicio}" required />
+                        </div>
 
-<script>
-  function limpiarFormulario() {
-    const form = document.getElementById('servicioForm');
-    form.reset();
-    document.getElementById('servicioId').value = '0';
-    form.setAttribute('action', '/servicio/guardar');
-    document.getElementById('formTitle').textContent = 'Nuevo Servicio';
-    document.getElementById('btnGuardar').innerHTML = '<i class="bi bi-save me-2"></i>Guardar';
-    new bootstrap.Collapse(document.getElementById('formServicio'), { hide: true });
-  }
+                        <div class="mb-3">
+                            <label>Descripción</label>
+                            <textarea class="form-control" th:field="*{descripcion}" required></textarea>
+                        </div>
 
-  function editarServicio(id) {
-    fetch(`/servicio/editar/${id}`)
-      .then(resp => {
-        if (!resp.ok) throw new Error('No se pudo cargar el servicio para editar.');
-        return resp.json();
-      })
-      .then(data => {
-        document.getElementById('servicioId').value = data.id_servicio;
-        document.querySelector('[name="nombreServicio"]').value = data.nombreServicio;
-        document.querySelector('[name="costo"]').value = data.costo;
-        document.querySelector('[name="descripcion"]').value = data.descripcion;
+                        <div class="mb-3">
+                            <label>Costo</label>
+                            <input type="number" class="form-control" th:field="*{costo}" step="0.01" required />
+                        </div>
 
-        const form = document.getElementById('servicioForm');
-        form.setAttribute('action', '/servicio/actualizar');
-        document.getElementById('formTitle').textContent = 'Editar Servicio';
-        document.getElementById('btnGuardar').innerHTML = '<i class="bi bi-pencil-square me-2"></i>Actualizar';
+                        <button type="submit" class="btn btn-primary" id="btnGuardar">
+                            <i class="bi bi-save me-2"></i>Guardar
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-        new bootstrap.Collapse(document.getElementById('formServicio'), { show: true });
-      })
-      .catch(err => alert(err.message));
-  }
+			<div class="row">
+			    <div th:each="srv : ${servicios}" class="col-md-4 mb-3">
+			        <div class="card h-100 shadow-sm text-center">
+			            <!-- Ícono representativo arriba -->
+			            <div class="card-header bg-primary text-white">
+			                <i class="fas fa-stethoscope fa-2x"></i> <!-- Puedes cambiar según servicio -->
+			            </div>
 
-  document.getElementById('formServicio')
-          .addEventListener('hidden.bs.collapse', limpiarFormulario);
-</script>
+			            <div class="card-body">
+			                <h5 class="card-title mt-2" th:text="${srv.nombreServicio}">Servicio</h5>
+			                <p class="card-text">
+			                    <strong>Descripción:</strong> <span th:text="${srv.descripcion}"></span><br>
+			                    <strong>Costo:</strong> S/ <span th:text="${srv.costo}"></span>
+			                </p>
+			            </div>
+
+			            <div class="card-footer d-flex justify-content-center gap-2">
+			                <a href="#" class="icon"
+			                   th:onclick="'editarServicio(' + ${srv.id_servicio} + ')'" title="Editar Servicio">
+			                    <i class="bi bi-pencil"></i>
+			                </a>
+			                <a href="#" class="icon"
+			                   th:onclick="'eliminarServicio(' + ${srv.id_servicio} + ')'" title="Eliminar Servicio">
+			                    <i class="bi bi-trash"></i>
+			                </a>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+
+            <!-- Mostrar mensaje si no hay servicios -->
+            <div th:if="${servicios == null or servicios.isEmpty()}" class="col-12 text-center text-muted">
+                <i class="bi bi-inbox display-1"></i>
+                <p class="mt-2">No hay servicios registrados</p>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Footer Profesional -->
+    <footer class="footer-custom">
+        <p>© 2025 Veterinaria Vida Animal - Todos los derechos reservados</p>
+        <div>
+            <a href="https://www.facebook.com" class="text-white">
+                <i class="fab fa-facebook-square"></i>
+            </a>
+            <a href="https://www.instagram.com" class="text-white">
+                <i class="fab fa-instagram-square"></i>
+            </a>
+            <a href="https://twitter.com" class="text-white">
+                <i class="fab fa-twitter-square"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+ // Función para editar servicio
+    function editarServicio(idServicio) {
+        fetch(`/servicio/editar/${idServicio}`)  // Asegúrate de colocar las comillas
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('servicioId').value = data.id_servicio;
+                document.getElementById('formTitle').textContent = "Editar Servicio";
+                document.getElementsByName('nombreServicio')[0].value = data.nombreServicio;
+                document.getElementsByName('descripcion')[0].value = data.descripcion;
+                document.getElementsByName('costo')[0].value = data.costo;
+                const collapse = new bootstrap.Collapse(document.getElementById('formServicio'), {toggle: true});
+            });
+    }
+ // Función para eliminar servicio
+    function eliminarServicio(idServicio) {
+        if (confirm('¿Estás seguro de que deseas eliminar este servicio?')) {
+            fetch(`/servicio/eliminar/${idServicio}`, {  // Asegúrate de colocar las comillas
+                method: 'POST'  // Cambié DELETE por POST, ya que lo estamos haciendo por formulario
+            }).then(response => {
+                if (response.ok) {
+                    alert('Servicio eliminado correctamente');
+                    window.location.reload();  // Recargar la página para reflejar los cambios
+                } else {
+                    alert('Error al eliminar el servicio');
+                }
+            });
+        }
+    }
+    </script>
 
 </body>
 </html>

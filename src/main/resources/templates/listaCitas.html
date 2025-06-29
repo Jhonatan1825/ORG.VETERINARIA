@@ -1,138 +1,242 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Listado de Citas - Veterinaria</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" th:href="@{/index.css}">
-    <style>
-        /* Estilos personalizados para la veterinaria (puedes mover esto a tu index.css) */
-        body {
-            background-color: #f8f9fa; /* Un fondo claro y agradable */
-        }
-        .navbar {
-            background-color: rgb(0, 128, 0); /* Un verde vibrante, típico de veterinarias */
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-        }
-        .navbar-brand, .nav-link {
-            color: #fff !important; /* Texto blanco para la barra de navegación */
-			font-size: 24px;
-			
-			
-        }
-        .table-dark th {
-            background-color: #1e7e34; /* Un verde más oscuro para el encabezado de la tabla */
-            color: #fff;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #e2f4ea; /* Un verde claro al pasar el ratón por las filas */
-        }
-        .btn-primary {
-            background-color: #28a745; /* Botones principales en verde */
-            border-color: rgb(0, 0, 0);
-        }
-        .btn-primary:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
-        .btn-outline-primary {
-            color: #28a745;
-            border-color: #28a745;
-        }
-        .btn-outline-primary:hover {
-            background-color: #28a745;
-            color: #fff;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado de Citas - Veterinaria</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" th:href="@{/index.css}">
+  
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #212529;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sidebar {
+      height: calc(100vh - 60px);
+      width: 140px;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      background-color: #0071bc;
+      padding-top: 20px;
+      padding-left: 5px;
+      transition: all 0.3s ease-in-out;
+      z-index: 999;
+    }
+
+    .sidebar h3 {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar h3 i {
+      margin-right: 10px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      margin: 10px 0;
+      display: block;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      background-color: transparent;
+      box-shadow: 0 0 0 transparent;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #0056b3;
+      transform: translateX(10px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background-color: #0071bc;
+      color: white;
+      padding: 10px 20px;
+      z-index: 1000;
+    }
+
+    .top-bar .logout-btn {
+      color: white;
+      font-weight: 500;
+    }
+
+    .top-bar .logout-btn:hover {
+      text-decoration: underline;
+    }
+
+    .main-content {
+      margin-left: 160px; /* ancho de la barra lateral */
+      margin-top: 80px;
+      padding: 20px;
+      padding-bottom: 80px;
+      background-color: white;
+      border-radius: 10px;
+    }
+
+    .footer-custom {
+      background-color: #0071bc;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    .footer-custom a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .footer-custom a:hover {
+      color: #f8f9fa;
+      text-decoration: underline;
+    }
+
+    .section-header {
+      background-color: #0071bc;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .table-dark th {
+      background-color: #1e7e34;
+      color: #fff;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #e2f4ea;
+    }
+
+    .btn-primary {
+      background-color: #28a745;
+      border-color: rgb(0, 0, 0);
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/bienvenido">
-                <i class="fas fa-paw me-2"></i> Veterinaria
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/citas">Citas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/clientes">Clientes</a>
-                    </li>
-                    </ul>
-            </div>
+
+  <!-- Barra lateral -->
+  <div class="sidebar">
+    <a href="/bienvenido" class="text-white text-decoration-none">
+      <h3><i class="fas fa-paw"></i> Sistema Veterinaria</h3>
+    </a>
+    <a href="/clientes"><i class="fas fa-users fa-2x"></i><div>Clientes</div></a>
+    <a href="/mascotas"><i class="fas fa-paw fa-2x"></i><div>Mascotas</div></a>
+    <a href="/citas"><i class="fas fa-calendar-alt fa-2x"></i><div>Citas</div></a>
+    <a href="/veterinarios"><i class="fas fa-file-medical fa-2x"></i><div>Veterinarios</div></a>
+    <a href="/servicio"><i class="fas fa-concierge-bell fa-2x"></i><div>Servicios</div></a>
+    <a href="/reportes"><i class="fas fa-chart-line fa-2x"></i><div>Reportes</div></a>
+    <a href="/facturacion"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+    <a href="javascript:history.back()" class="btn btn-success mb-4">
+      <i class="fas fa-arrow-left me-2"></i> Volver
+    </a>
+  </div>
+
+  <!-- Barra superior -->
+  <div class="top-bar d-flex justify-content-between align-items-center">
+    <div class="user-greeting">Hola, Administrador!</div>
+    <a href="/logout" class="logout-btn text-white"><i class="fas fa-sign-out-alt me-2"></i> Salir del sistema</a>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <div class="card p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-center flex-grow-1 text-success">
+          <i class="fas fa-calendar-alt me-2"></i> Listado de Citas
+        </h1>
+        <div class="ms-3">
+          <a href="/clientes" class="btn btn-outline-primary">
+            <i class="fas fa-users me-2"></i> Ver Clientes
+          </a>
         </div>
-    </nav>
+      </div>
 
-    <div class="container mt-5">
-        <div class="card p-4"> <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-center flex-grow-1 text-success">
-                    <i class="fas fa-calendar-alt me-2"></i> Listado de Citas
-                </h1>
-                <div class="ms-3">
-                    <a href="/clientes" class="btn btn-outline-primary">
-                        <i class="fas fa-users me-2"></i> Ver Clientes
-                    </a>
-                    </div>
-            </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered shadow-sm rounded-3">
+          <thead class="table-dark text-center">
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Mascota</th>
+              <th>Veterinario</th>
+              <th>Servicio</th>
+              <th>Motivo</th>
+              <th>Fecha y Hora</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="cita : ${citas}">
+              <td th:text="${cita.id_cita}"></td>
+              <td th:text="${cita.cliente.nombre + ' ' + cita.cliente.apellido}"></td>
+              <td th:text="${cita.mascota.nombre}"></td>
+              <td th:text="${cita.veterinario.nombre}"></td>
+              <td th:text="${cita.servicio.nombreServicio}"></td>
+              <td th:text="${cita.motivo}"></td>
+              <td th:text="${#dates.format(cita.fecha, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(citas)}">
+              <td colspan="7" class="text-center py-4">
+                <p class="lead text-muted">
+                  <i class="fas fa-clipboard me-2"></i> No hay citas registradas en este momento.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <div class="table-responsive">
-                <table class="table table-hover table-bordered shadow-sm rounded-3"> <thead class="table-dark text-center">
-                        <tr>
-                            <th>ID</th>
-                            <th>Cliente</th>
-                            <th>Mascota</th>
-                            <th>Veterinario</th>
-                            <th>Servicio</th>
-                            <th>Motivo</th>
-                            <th>Fecha y Hora</th>
-                            </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="cita : ${citas}">
-                            <td th:text="${cita.id_cita}"></td>
-                            <td th:text="${cita.cliente.nombre + ' ' + cita.cliente.apellido}"></td>
-                            <td th:text="${cita.mascota.nombre}"></td>
-                            <td th:text="${cita.veterinario.nombre}"></td>
-                            <td th:text="${cita.servicio.nombreServicio}"></td>
-                            <td th:text="${cita.motivo}"></td>
-                            <td th:text="${#dates.format(cita.fecha, 'yyyy-MM-dd HH:mm')}"></td>
-                            </tr>
-                        <tr th:if="${#lists.isEmpty(citas)}">
-                            <td colspan="7" class="text-center py-4">
-                                <p class="lead text-muted">
-                                    <i class="fas fa-clipboard me-2"></i> No hay citas registradas en este momento.
-                                </p>
-                                </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="d-flex justify-content-center mt-4">
-                <a href="/bienvenido" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left me-2"></i> Volver al Inicio
-                </a>
-            </div>
-        </div>
+      <div class="d-flex justify-content-center mt-4">
+        <a href="/bienvenido" class="btn btn-secondary">
+          <i class="fas fa-arrow-left me-2"></i> Volver al Inicio
+        </a>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <!-- Footer -->
+  <footer class="footer-custom">
+    <p>© 2025 Veterinaria Vida Animal - Todos los derechos reservados</p>
+    <div>
+      <a href="https://www.facebook.com" class="text-white">
+        <i class="fab fa-facebook-square"></i>
+      </a>
+      <a href="https://www.instagram.com" class="text-white">
+        <i class="fab fa-instagram-square"></i>
+      </a>
+      <a href="https://twitter.com" class="text-white">
+        <i class="fab fa-twitter-square"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

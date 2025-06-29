@@ -1,2 +1,26 @@
+# Fuerza a Git a tratar todos los archivos de texto como texto y normaliza los saltos de línea a LF
+* text=auto
+
+# Archivos Java
+*.java text eol=lf
+
+# Propiedades de Spring Boot
+*.properties text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Configuración de Maven/Gradle
+pom.xml text eol=lf
+*.gradle text eol=lf
+
+# Scripts
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Archivos de documentación
+*.md text eol=lf
+
+# JSON
+*.json text eol=lf
 /mvnw text eol=lf
 *.cmd text eol=crlf

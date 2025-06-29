@@ -3,9 +3,7 @@ package org.proyectoFinal.modelo;
 import java.util.List;
 
 import org.proyectoFinal.entidad.Citas;
-import org.proyectoFinal.entidad.Cliente;
 import org.proyectoFinal.repositorio.CitasRepositorio;
-import org.proyectoFinal.repositorio.ClienteRepositorio;
 import org.proyectoFinal.servicio.CitasUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -7,26 +7,185 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<style>
+	.card:hover {
+			            transform: scale(1.02);
+			            transition: all 0.3s ease;
+			        }
+
+			        .card .bi {
+			            transition: transform 0.2s ease;
+			            cursor: pointer;
+			        }
+
+			        .card .bi:hover {
+			            transform: scale(1.2);
+			        }
+
+					/* Estilos de barra lateral refinados */
+					.sidebar {
+					    height: calc(100vh - 60px); /* Altura ajustada por la barra superior */
+					    width: 140px;
+					    position: fixed;
+					    top: 60px;
+					    left: 0;
+					    background-color: #0071bc;
+					    padding-top: 20px;
+					    padding-left: 5px;
+					    transition: all 0.3s ease-in-out;
+					    z-index: 999;
+					}
+
+					.sidebar h3 {
+					    color: white;
+					    font-size: 18px;
+					    font-weight: bold;
+					    text-align: center;
+					    margin-bottom: 20px;
+					}
+
+					.sidebar h3 i {
+					    margin-right: 10px;
+					}
+
+					.sidebar a {
+					    color: white;
+					    text-decoration: none;
+					    font-size: 18px;
+					    margin: 10px 0;
+					    display: block;
+					    padding: 10px;
+					    border-radius: 5px;
+					    text-align: center;
+					    background-color: transparent;
+					    box-shadow: 0 0 0 transparent;
+					    transition: all 0.3s ease;
+					}
+
+					.sidebar a:hover {
+					    background-color: #0056b3;
+					    transform: translateX(10px);
+					    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+					}
+					/* Estilos barra superior */
+					.top-bar {
+					    position: fixed;
+					    top: 0;
+					    left: 0;
+					    right: 0;
+					    height: 60px;
+					    background-color: #0071bc;
+					    color: white;
+					    padding: 10px 20px;
+					    z-index: 1000;
+					}
+
+					.top-bar .logout-btn {
+					    color: white;
+					    font-weight: 500;
+					}
+
+					.top-bar .logout-btn:hover {
+					    text-decoration: underline;
+					}
+
+					.main-content {
+					    margin-left: 10px;
+					    margin-top: 80px;
+					    padding: 20px;
+						padding-bottom: 80px;
+					}
+					/* Estilos para el footeeerr */
+					.footer-custom {
+					    background-color: #0071bc;
+					    color: white;
+					    text-align: center;
+					    padding: 15px 10px;
+					    font-size: 0.9rem;
+					    position: fixed;
+					    bottom: 0;
+					    left: 0;
+					    right: 0;
+					    width: 100%;
+					    z-index: 999;
+					}
+
+					.footer-custom a {
+					    color: white;
+					    text-decoration: none;
+					}
+
+					.footer-custom a:hover {
+					    color: #f8f9fa;
+					    text-decoration: underline;
+					}
+					.section-header {
+					    background-color: #0071bc;
+					    color: white;
+					    padding: 20px;
+					    border-radius: 10px;
+					    margin-bottom: 30px;
+					    text-align: center;
+					}
+		.card .fa-user-md {
+		    font-size: 4rem;
+		    color: white;
+		}
+
+		.card-header {
+		    padding: 20px 0;
+		}
+</style>
 </head>
 <body class="bg-light">
 
 <div class="container mt-5">
-    <a href="/bienvenido" class="btn btn-success mb-4">
-        <i class="bi bi-arrow-left me-2"></i> Volver
-    </a>
+  
 
-    <!-- Mensajes -->
-    <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
-        <i class="bi bi-check-circle me-2"></i>
-        <span th:text="${success}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
-        <i class="bi bi-exclamation-triangle me-2"></i>
-        <span th:text="${error}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
 
+
+	<!-- Barra lateral -->
+		<div class="sidebar">
+			<a href="/bienvenido" class="text-white text-decoration-none">
+						    <h3><i class="fas fa-paw"></i> Sistema Veterinaria</h3>
+						</a>
+		    <a href="/clientes"><i class="fas fa-users fa-2x"></i><div>Clientes</div></a>
+		    <a href="/mascotas"><i class="fas fa-paw fa-2x"></i><div>Mascotas</div></a>
+		    <a href="/citas"><i class="fas fa-calendar-alt fa-2x"></i><div>Citas</div></a>
+		    <a href="/veterinarios"><i class="fas fa-file-medical fa-2x"></i><div>Veterinarios</div></a>
+		    <a href="/servicio"><i class="fas fa-concierge-bell fa-2x"></i><div>Servicios</div></a>
+		    <a href="/reportes"><i class="fas fa-chart-line fa-2x"></i><div>Reportes</div></a>
+		    <a href="/facturacion"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+			<a href="javascript:history.back()" class="btn btn-success mb-4">
+			    <i class="fas fa-arrow-left me-2"></i> Volver
+			</a>
+		</div>
+
+		<!-- Barra superior -->
+		<div class="top-bar d-flex justify-content-between align-items-center">
+		    <div class="user-greeting">Hola, Administrador!</div>
+		    <a href="/logout" class="logout-btn text-white"><i class="fas fa-sign-out-alt me-2"></i> Salir del sistema</a>
+			
+		</div>
+					
+	<div class="main-content">
+		<!-- Mensajes -->
+		<div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+		    <i class="bi bi-check-circle me-2"></i>
+		    <span th:text="${success}"></span>
+		    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		</div>
+		<div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+		    <i class="bi bi-exclamation-triangle me-2"></i>
+		    <span th:text="${error}"></span>
+		    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		</div>
+
+		
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Lista de Veterinarios</h2>
         <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formVeterinario">
@@ -67,45 +226,59 @@
         </div>
     </div>
 
-    <!-- Tabla -->
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Especialidad</th>
-                    <th>Teléfono</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="vet, iterStat : ${veterinarios}">
-                    <td th:text="${iterStat.count}"></td>
-                    <td th:text="${vet.nombre}"></td>
-                    <td th:text="${vet.especialidad}"></td>
-                    <td th:text="${vet.telefono}"></td>
-                    <td>
-                        <button class="btn btn-warning btn-sm me-1"
-                                th:onclick="'editarVeterinario(' + ${vet.id_veterinario} + ')'">
-                            <i class="bi bi-pencil"></i> Editar
-                        </button>
-                        <button class="btn btn-danger btn-sm"
-                                th:onclick="'confirmarEliminarVeterinario(' + ${vet.id_veterinario} + ')'">
-                            <i class="bi bi-trash"></i> Eliminar
-                        </button>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(veterinarios)}">
-                    <td colspan="5" class="text-center text-muted">
-                        <i class="bi bi-inbox display-1"></i>
-                        <p class="mt-2">No hay veterinarios registrados</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+			<!-- Lista de Veterinarios en Tarjetas -->
+			<div class="container">
+			    <div class="row justify-content-center">
+			        <div class="col-md-4 mb-4" th:each="vet : ${veterinarios}">
+			            <div class="card h-100 text-center shadow-sm">
+			                <div class="card-header bg-primary text-white">
+			                    <i class="fas fa-user-md fa-3x"></i>
+			                </div>
+			                <div class="card-body">
+			                    <h5 class="card-title" th:text="${vet.nombre}">Nombre Veterinario</h5>
+			                    <p class="card-text">
+			                        <strong>Especialidad:</strong> <span th:text="${vet.especialidad}"></span><br>
+			                        <strong>Teléfono:</strong> <span th:text="${vet.telefono}"></span>
+			                    </p>
+			                </div>
+			                <div class="card-footer d-flex justify-content-center gap-2">
+			                    <button class="btn btn-warning btn-sm"
+			                            th:onclick="'editarVeterinario(' + ${vet.id_veterinario} + ')'">
+			                        <i class="bi bi-pencil"></i>
+			                    </button>
+			                    <button class="btn btn-danger btn-sm"
+			                            th:onclick="'confirmarEliminarVeterinario(' + ${vet.id_veterinario} + ')'">
+			                        <i class="bi bi-trash"></i>
+			                    </button>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+		
+			<!-- Si no hay veterinarios -->
+			<div th:if="${#lists.isEmpty(veterinarios)}" class="text-center text-muted">
+			    <i class="bi bi-inbox display-1"></i>
+			    <p class="mt-2">No hay veterinarios registrados</p>
+			</div>
+    	</div>
+	</div>
 </div>
+<!-- Footer Profesional -->
+	<footer class="footer-custom">
+	    <p>© 2025 Veterinaria Vida Animal - Todos los derechos reservados</p>
+	    <div>
+	        <a href="https://www.facebook.com" class="text-white me-3">
+	            <i class="fab fa-facebook-square fa-lg"></i>
+	        </a>
+	        <a href="https://www.instagram.com" class="text-white me-3">
+	            <i class="fab fa-instagram-square fa-lg"></i>
+	        </a>
+	        <a href="https://twitter.com" class="text-white">
+	            <i class="fab fa-twitter-square fa-lg"></i>
+	        </a>
+	    </div>
+	</footer>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

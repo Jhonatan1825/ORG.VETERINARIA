@@ -1,21 +1,145 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Clientes</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+	<head>
+	    <meta charset="UTF-8">
+	    <title>Clientes</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <!-- Bootstrap CDN -->
+	    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	    <!-- Bootstrap Icons -->
+	    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-<div class="container mt-5">
-    <a href="/bienvenido" class="btn btn-success mb-4">
-        <i class="fas fa-arrow-left me-2"></i> Volver
-    </a>
-	
+	    <!-- Aquí va el bloque de estilo -->
+	    <style>
+	        .card:hover {
+	            transform: scale(1.02);
+	            transition: all 0.3s ease;
+	        }
+
+	        .card .bi {
+	            transition: transform 0.2s ease;
+	            cursor: pointer;
+	        }
+
+	        .card .bi:hover {
+	            transform: scale(1.2);
+	        }
+
+			/* Estilos de barra lateral refinados */
+			.sidebar {
+			    height: calc(100vh - 60px); /* Altura ajustada por la barra superior */
+			    width: 140px;
+			    position: fixed;
+			    top: 60px;
+			    left: 0;
+			    background-color: #0071bc;
+			    padding-top: 20px;
+			    padding-left: 5px;
+			    transition: all 0.3s ease-in-out;
+			    z-index: 999;
+			}
+
+			.sidebar h3 {
+			    color: white;
+			    font-size: 18px;
+			    font-weight: bold;
+			    text-align: center;
+			    margin-bottom: 20px;
+			}
+
+			.sidebar h3 i {
+			    margin-right: 10px;
+			}
+
+			.sidebar a {
+			    color: white;
+			    text-decoration: none;
+			    font-size: 18px;
+			    margin: 10px 0;
+			    display: block;
+			    padding: 10px;
+			    border-radius: 5px;
+			    text-align: center;
+			    background-color: transparent;
+			    box-shadow: 0 0 0 transparent;
+			    transition: all 0.3s ease;
+			}
+
+			.sidebar a:hover {
+			    background-color: #0056b3;
+			    transform: translateX(10px);
+			    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+			}
+
+
+			/* Estilos barra superior */
+			.top-bar {
+			    position: fixed;
+			    top: 0;
+			    left: 0;
+			    right: 0;
+			    height: 60px;
+			    background-color: #0071bc;
+			    color: white;
+			    padding: 10px 20px;
+			    z-index: 1000;
+			}
+
+			.top-bar .logout-btn {
+			    color: white;
+			    font-weight: 500;
+			}
+
+			.top-bar .logout-btn:hover {
+			    text-decoration: underline;
+			}
+
+			.main-content {
+			    margin-left: 270px;
+				margin-right: 250px;
+			    margin-top: 40px;
+			    padding: 20px;
+			}
+			/* Estilos para el footeeerr */
+			.footer-custom {
+			    background-color: #0071bc;
+			    color: white;
+			    text-align: center;
+			    padding: 15px 10px;
+			    font-size: 0.9rem;
+			    position: fixed;
+			    bottom: 0;
+			    left: 0;
+			    right: 0;
+			    width: 100%;
+			    z-index: 999;
+			}
+
+			.footer-custom a {
+			    color: white;
+			    text-decoration: none;
+			}
+
+			.footer-custom a:hover {
+			    color: #f8f9fa;
+			    text-decoration: underline;
+			}
+			.section-header {
+			    background-color: #0071bc;
+			    color: white;
+			    padding: 20px;
+			    border-radius: 10px;
+			    margin-bottom: 30px;
+			    text-align: center;
+			}
+
+	    </style>
+	</head>
+<body class="bg-light">
+	<div class="main-content">
+	<div class="container mt-5">
+  
     <!-- Mensajes de éxito y error -->
     <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="bi bi-check-circle me-2"></i>
@@ -29,18 +153,47 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Lista de Clientes</h2>
-        <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formCliente">
-            <i class="bi bi-plus-circle me-2"></i>Agregar Cliente
-        </button>
-		<a href="/citas" class="btn btn-outline-primary">
-			 <i class="fas fa-calendar-alt me-2"></i> Ver todas las Citas
-				</a>
-		    
-									
-    </div>
+	<!-- Sección de bienvenida / mensaje -->
+	<div class="section-header mb-4 p-4 rounded text-white text-center" style="background-color: #0071bc;">
+	    <h2 class="mb-2">
+	        <i class="fas fa-dog me-2"></i> Registros de Clientes
+	    </h2>
+	    <p class="mb-0">Administra la información de cada dueño y su mascota, garantizando su salud y bienestar con atención personalizada.</p>
+	</div>
 
+	<!-- Botones de acción -->
+	
+	    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formCliente">
+	        <i class="bi bi-plus-circle me-2"></i> Agregar Cliente
+	    </button>
+
+	  
+	</div>
+	
+	<!-- Barra lateral -->
+	<div class="sidebar">
+		<a href="/bienvenido" class="text-white text-decoration-none">
+					    <h3><i class="fas fa-paw"></i> Sistema Veterinaria</h3>
+					</a>
+	    <a href="/clientes"><i class="fas fa-users fa-2x"></i><div>Clientes</div></a>
+	    <a href="/mascotas"><i class="fas fa-paw fa-2x"></i><div>Mascotas</div></a>
+	    <a href="/citas"><i class="fas fa-calendar-alt fa-2x"></i><div>Citas</div></a>
+	    <a href="/veterinarios"><i class="fas fa-file-medical fa-2x"></i><div>Veterinarios</div></a>
+	    <a href="/servicio"><i class="fas fa-concierge-bell fa-2x"></i><div>Servicios</div></a>
+	    <a href="/reportes"><i class="fas fa-chart-line fa-2x"></i><div>Reportes</div></a>
+	    <a href="/facturacion"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+		<a href="javascript:history.back()" class="btn btn-success mb-4">
+					    <i class="fas fa-arrow-left me-2"></i> Volver
+					</a>
+	</div>
+
+	<!-- Barra superior -->
+	<div class="top-bar d-flex justify-content-between align-items-center">
+	    <div class="user-greeting">Hola, Administrador!</div>
+	    <a href="/logout" class="logout-btn text-white"><i class="fas fa-sign-out-alt me-2"></i> Salir del sistema</a>
+	</div>
+	
+	
     <!-- Formulario Agregar Cliente -->
     <div id="formCliente" class="collapse mb-4">
         <div class="card card-body">
@@ -85,59 +238,67 @@
                     </button>
                 </div>
             </form>
-        </div>
-    </div>
+       	 </div>
+    	</div>
+	</div> 
+	<div class="main-content">
+	<!-- Tarjetas de Clientes -->
+	<div class="row">
+	    <div th:if="${clientes != null and !clientes.isEmpty()}">
+	        <div class="row">
+	            <div th:each="cliente, iterStat : ${clientes}" class="col-md-4 mb-4">
+	                <div class="card h-100 shadow-sm">
+	                    <div class="card-body">
+	                        <h5 class="card-title" th:text="${cliente.nombre} + ' ' + ${cliente.apellido}"></h5>
+	                        <p class="card-text">
+	                            <strong>DNI:</strong> <span th:text="${cliente.dni}"></span><br>
+	                            <strong>Teléfono:</strong> <span th:text="${cliente.telefono}"></span><br>
+	                            <strong>Dirección:</strong> <span th:text="${cliente.direcion}"></span>
+	                        </p>
 
-    <!-- Tabla Clientes -->
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>DNI</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="cliente, iterStat : ${clientes}">
-                    <td th:text="${iterStat.count}"></td>
-                    <td th:text="${cliente.nombre}"></td>
-                    <td th:text="${cliente.apellido}"></td>
-                    <td th:text="${cliente.dni}"></td>
-                    <td th:text="${cliente.telefono}"></td>
-                    <td th:text="${cliente.direcion}"></td>
-					<td>
-					    <button class="btn btn-warning btn-sm me-1" 
-					            th:onclick="'editarCliente(' + ${cliente.idCliente} + ')'">
-					        <i class="bi bi-pencil"></i> Editar
-					    </button>
-					    <button class="btn btn-danger btn-sm" 
-					            th:onclick="'confirmarEliminar(' + ${cliente.idCliente} + ')'">
-					        <i class="bi bi-trash"></i> Eliminar
-					    </button>
-						<!-- Botón Crear Cita -->
-						<button class="btn btn-info btn-sm"
-						        th:onclick="'abrirModalCita(' + ${cliente.idCliente} + ')'">
-						    <i class="bi bi-calendar-plus"></i> Crear Cita
-						</button>
+	                        <!-- Iconos de acción -->
+	                        <div class="d-flex justify-content-around mt-3">
+	                            <a href="#" class="text-warning" th:onclick="'editarCliente(' + ${cliente.idCliente} + ')'" title="Editar Cliente">
+	                                <i class="bi bi-pencil fs-4"></i>
+	                            </a>
+	                            <a href="#" class="text-danger" th:onclick="'confirmarEliminar(' + ${cliente.idCliente} + ')'" title="Eliminar Cliente">
+	                                <i class="bi bi-trash fs-4"></i>
+	                            </a>
+	                            <a href="#" class="text-info" th:onclick="'abrirModalCita(' + ${cliente.idCliente} + ')'" title="Crear Cita">
+	                                <i class="bi bi-calendar-plus fs-4"></i>
+	                            </a>
+	                            <a href="#" class="text-success" th:onclick="'abrirModalMascota(' + ${cliente.idCliente} + ')'" title="Agregar Mascota">
+	                                <i class="bi bi-plus-circle fs-4"></i>
+	                            </a>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 
-						<button class="btn btn-success btn-sm" th:onclick="'abrirModalMascota(' + ${cliente.idCliente} + ')'">
-						    <i class="bi bi-plus-circle"></i> Agregar Mascota
-						</button>
-					</td>
-                <tr th:if="${#lists.isEmpty(clientes)}">
-                    <td colspan="7" class="text-center text-muted">
-                        <i class="bi bi-inbox display-1"></i>
-                        <p class="mt-2">No hay clientes registrados</p>
-                    </td>
-                </tr>
-            </tbody>
-			
-
+		    <!-- Si no hay clientes -->
+		    <div th:if="${clientes == null or clientes.isEmpty()}" class="col-12 text-center text-muted">
+		        <i class="bi bi-inbox display-1"></i>
+		        <p class="mt-2">No hay clientes registrados</p>
+		    </div>
+		</div>
+	</div> 
+	<!-- Footer Profesional -->
+	<footer class="footer-custom">
+	    <p>© 2025 Veterinaria Vida Animal - Todos los derechos reservados</p>
+	    <div>
+	        <a href="https://www.facebook.com" class="text-white me-3">
+	            <i class="fab fa-facebook-square fa-lg"></i>
+	        </a>
+	        <a href="https://www.instagram.com" class="text-white me-3">
+	            <i class="fab fa-instagram-square fa-lg"></i>
+	        </a>
+	        <a href="https://twitter.com" class="text-white">
+	            <i class="fab fa-twitter-square fa-lg"></i>
+	        </a>
+	    </div>
+	</footer>
 			<!-- Modal para Registrar Mascota -->
 			<div class="modal fade" id="modalMascota" tabindex="-1" aria-hidden="true">
 			    <div class="modal-dialog modal-lg">
@@ -169,10 +330,10 @@
 			</div>
         </table>
     </div>
-</div>
+
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> </script>
 
 <!-- Script para abrir modal y cargar formulario por AJAX -->
 			<script>

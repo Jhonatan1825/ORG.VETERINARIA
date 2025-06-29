@@ -1,5 +1,12 @@
 package org.proyectoFinal.controlador;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +20,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.beans.factory.annotation.Value;
 
 @Controller
 public class MascotasController {
 
     @Autowired
     private MascotaRepositorio mascotaRepositorio;
+    
+    @Value("${app.ruta.imagenes}")
+    private String rutaImagenes;
 
     @Autowired
     private ClienteRepositorio clienteRepositorio;
@@ -40,19 +51,39 @@ public class MascotasController {
     // Guardar nueva mascota o actualizar
     @PostMapping("/guardar")
     public String guardarMascota(@ModelAttribute Mascotas mascota,
+                                 @RequestParam("fotoMascota") MultipartFile file,
                                  RedirectAttributes redirectAttributes) {
         try {
-            // Si el ID viene como 0, lo anulamos para que se genere uno nuevo
             if (mascota.getId_mascota() != null && mascota.getId_mascota() == 0) {
                 mascota.setId_mascota(null);
             }
 
+            if (!file.isEmpty()) {
+                File directorio = new File(rutaImagenes);
+                if (!directorio.exists()) {
+                    directorio.mkdirs();
+                }
+
+                String nombreArchivo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+                Path path = Paths.get(rutaImagenes + nombreArchivo);
+                Files.write(path, file.getBytes());
+
+                mascota.setImagen(nombreArchivo);
+            } else {
+                mascota.setImagen("mascota_default.jpg");
+            }
+
+
             mascotaRepositorio.save(mascota);
             redirectAttributes.addFlashAttribute("success", "Mascota guardada exitosamente");
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("error", "Error al guardar la imagen: " + e.getMessage());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al guardar la mascota: " + e.getMessage());
         }
-        return "redirect:/clientes";
+        System.out.println("Ruta de imágenes: " + rutaImagenes);
+
+        return "redirect:/mascotas";
     }
  // Cargar formulario de nueva mascota
     @GetMapping("/mascotas/form/{idCliente}")
@@ -92,7 +123,7 @@ public class MascotasController {
         return "redirect:/mascotas";
     }
 
-    // Eliminar mascota vía AJAX (opcional si usas JS)
+    // Eliminar mascota vía AJAX 
     @DeleteMapping("/eliminar/{id}")
     @ResponseBody
     public ResponseEntity<String> eliminarMascotaAjax(@PathVariable int id) {
