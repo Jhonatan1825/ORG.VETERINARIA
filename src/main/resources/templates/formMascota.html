@@ -3,7 +3,7 @@
 <body>
 <div th:fragment="form">
     <form th:action="@{/guardar}" method="post" th:object="${mascota}" enctype="multipart/form-data">
-        <input type="hidden" th:field="*{idMascota}" />
+     <input type="hidden" th:field="*{idMascota}" id="mascotaId" />
         <input type="hidden" th:field="*{cliente.idCliente}" />
 
         <div class="mb-3">

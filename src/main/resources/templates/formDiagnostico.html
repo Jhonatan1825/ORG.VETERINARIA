@@ -1,0 +1,60 @@
+<!-- templates/formDiagnostico.html -->
+<div th:fragment="form">
+    <form th:action="@{/diagnosticos/guardar}" th:object="${diagnostico}" method="post">
+        <input type="hidden" th:field="*{mascota.idMascota}" />
+        <input type="hidden" th:field="*{fecha}" />
+
+        <!-- Veterinario -->
+        <div class="mb-3">
+            <label class="form-label">Veterinario</label>
+            <select class="form-select" th:field="*{veterinario.id_veterinario}" required>
+                <option value="">Seleccione...</option>
+                <option th:each="v : ${veterinarios}"
+                        th:value="${v.id_veterinario}"
+                        th:text="${v.nombre}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Cita -->
+        <div class="mb-3">
+            <label class="form-label">Cita relacionada</label>
+            <select class="form-select" th:field="*{cita.id_cita}">
+                <option value="">-- Ninguna --</option>
+                <option th:each="c : ${citas}"
+                        th:value="${c.id_cita}"
+                        th:text="${#dates.format(c.fecha, 'dd/MM/yyyy HH:mm') + ' - ' + c.motivo}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Estado -->
+        <div class="mb-3">
+            <label class="form-label">Estado de la mascota</label>
+            <select class="form-select" th:field="*{estadoMascota}" required>
+                <option value="">Seleccione...</option>
+                <option value="Crítico">Crítico</option>
+                <option value="Estable">Estable</option>
+                <option value="Dado de alta">Dado de alta</option>
+            </select>
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" th:field="*{descripcion}" rows="3" required></textarea>
+        </div>
+
+        <!-- Tratamiento -->
+        <div class="mb-3">
+            <label class="form-label">Tratamiento</label>
+            <textarea class="form-control" th:field="*{tratamiento}" rows="3" required></textarea>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-save me-1"></i> Guardar Diagnóstico
+            </button>
+        </div>
+    </form>
+</div>

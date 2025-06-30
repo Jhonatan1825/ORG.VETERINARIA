@@ -48,17 +48,24 @@ public class MascotasController {
         return "mascotas";
     }
 
-    // Guardar nueva mascota o actualizar
     @PostMapping("/guardar")
     public String guardarMascota(@ModelAttribute Mascotas mascota,
                                  @RequestParam("fotoMascota") MultipartFile file,
                                  RedirectAttributes redirectAttributes) {
         try {
+            // Caso: cuando el ID es 0, se considera nueva mascota
             if (mascota.getIdMascota() != null && mascota.getIdMascota() == 0) {
                 mascota.setIdMascota(null);
             }
 
-            if (!file.isEmpty()) {
+            // Si NO se sube una nueva imagen
+            if (file.isEmpty()) {
+                //  No hacer nada si ya tiene imagen
+                if (mascota.getImagen() == null || mascota.getImagen().isBlank()) {
+                    mascota.setImagen("mascota_default.jpg");
+                }
+            } else {
+                // Guardar nueva imagen
                 File directorio = new File(rutaImagenes);
                 if (!directorio.exists()) {
                     directorio.mkdirs();
@@ -69,10 +76,7 @@ public class MascotasController {
                 Files.write(path, file.getBytes());
 
                 mascota.setImagen(nombreArchivo);
-            } else {
-                mascota.setImagen("mascota_default.jpg");
             }
-
 
             mascotaRepositorio.save(mascota);
             redirectAttributes.addFlashAttribute("success", "Mascota guardada exitosamente");
@@ -81,10 +85,11 @@ public class MascotasController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al guardar la mascota: " + e.getMessage());
         }
-        System.out.println("Ruta de imágenes: " + rutaImagenes);
 
         return "redirect:/mascotas";
     }
+
+    
  // Cargar formulario de nueva mascota
     @GetMapping("/mascotas/form/{idCliente}")
     public String mostrarFormularioMascota(@PathVariable int idCliente, Model model) {

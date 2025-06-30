@@ -223,7 +223,7 @@
 		        <h5 class="card-title" id="formTitle">Nueva Mascota</h5>
 
 		        <form th:action="@{/guardar}" method="post" enctype="multipart/form-data" id="mascotaForm">
-		            <input type="hidden" name="id_mascota" id="mascotaId" value="0">
+		            <input type="hidden" name="idMascota" id="mascotaId" value="0">
 
 		            <div class="row g-3">
 		                <div class="col-md-4">
@@ -248,7 +248,7 @@
 						        <option value="">-- Seleccione --</option>
 						        <option value="Macho">Macho</option>
 						        <option value="Hembra">Hembra</option>
-						    </select>
+						    </select> 
 						</div>
 		                <div class="col-md-4">
 		                    <label class="form-label">Alergias</label>
@@ -270,11 +270,19 @@
 						    <label class="form-label">Foto de la Mascota</label>
 						    <input type="file" class="form-control" name="fotoMascota" accept="image/*">
 						</div>
-
-						<!-- Vista previa de la imagen actual-->
-						<div class="col-md-4 d-none" id="fotoVistaContainer">
+						<input type="hidden" name="imagen" id="imagenActual">
+						<!-- Vista previa de la imagen actual -->
+						<div class="col-md-4" id="fotoVistaContainer">
 						    <label class="form-label">Foto actual</label><br>
-						    <img id="fotoActual" src="/img/mascota_default.jpg" alt="Foto actual" class="img-thumbnail" style="max-height: 160px;">
+						    <img id="fotoActual" src="/img/mascota_default.jpg" alt="Foto actual" class="img-thumbnail mb-2" style="max-height: 160px;">
+						    <br>
+						    <button type="button" class="btn btn-warning btn-sm mt-2" onclick="mostrarInputFoto()">Cambiar foto</button>
+						</div>
+
+						<!-- Input para nueva imagen -->
+						<div class="col-md-4 d-none" id="fotoInputContainer">
+						    <label class="form-label">Nueva Foto de la Mascota</label>
+						    <input type="file" class="form-control" name="fotoMascota" accept="image/*">
 						</div>
 		                <div class="col-md-4">
 		                    <label class="form-label">Cliente</label>
@@ -408,7 +416,7 @@
 	            return response.json();
 	        })
 	        .then(mascota => {
-	            document.getElementById('mascotaId').value = mascota.id_mascota;
+	          document.getElementById('mascotaId').value = mascota.idMascota; 
 	            document.querySelector('input[name="nombre"]').value = mascota.nombre;
 	            document.querySelector('input[name="especie"]').value = mascota.especie;
 	            document.querySelector('input[name="raza"]').value = mascota.raza;
@@ -422,7 +430,10 @@
 	            document.getElementById('fotoInputContainer').classList.add('d-none');
 	            document.getElementById('fotoVistaContainer').classList.remove('d-none');
 	            document.getElementById('fotoActual').src = '/img_mascotas/' + (mascota.imagen ?? 'mascota_default.jpg');
-
+				document.getElementById('imagenActual').value = mascota.imagen;
+				// Mostrar la imagen actual
+				document.getElementById('fotoVistaContainer').classList.remove('d-none');
+				document.getElementById('fotoInputContainer').classList.add('d-none');
 	            document.getElementById('mascotaForm').action = '/guardar';
 	            document.getElementById('formTitle').textContent = 'Editar Mascota';
 	            document.getElementById('btnGuardar').innerHTML = '<i class="bi bi-pencil-square me-2"></i>Actualizar';
@@ -434,7 +445,10 @@
 	        });
 	}
 
-
+	function mostrarInputFoto() {
+	    document.getElementById('fotoVistaContainer').classList.add('d-none');
+	    document.getElementById('fotoInputContainer').classList.remove('d-none');
+	}
     // Limpiar formulario si se colapsa manualmente
     document.getElementById('formMascota').addEventListener('hidden.bs.collapse', function () {
         limpiarFormulario();
