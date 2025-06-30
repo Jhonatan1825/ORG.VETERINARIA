@@ -2,50 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="form">
-	<form th:action="@{/guardar}" method="post" th:object="${mascota}" enctype="multipart/form-data">
-	    <input type="hidden" th:field="*{id_mascota}" />
-	    <input type="hidden" th:field="*{cliente.idCliente}" />
+    <form th:action="@{/guardar}" method="post" th:object="${mascota}" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{idMascota}" />
+        <input type="hidden" th:field="*{cliente.idCliente}" />
 
-	    <div class="mb-3">
-	        <label class="form-label">Nombre de la Mascota</label>
-	        <input type="text" class="form-control" th:field="*{nombre}" required>
-	    </div>
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{nombre}" required />
+        </div>
 
-	    <div class="mb-3">
-	        <label class="form-label">Especie</label>
-	        <input type="text" class="form-control" th:field="*{especie}" required>
-	    </div>
+        <div class="mb-3">
+            <label class="form-label">Especie</label>
+            <input type="text" class="form-control" th:field="*{especie}" required />
+        </div>
 
-	    <div class="mb-3">
-	        <label class="form-label">Raza</label>
-	        <input type="text" class="form-control" th:field="*{raza}" required>
-	    </div>
+        <div class="mb-3">
+            <label class="form-label">Raza</label>
+            <input type="text" class="form-control" th:field="*{raza}" required />
+        </div>
 
-	    <div class="mb-3">
-	        <label class="form-label">Género</label>
-	        <select class="form-select" th:field="*{genero}" required>
-	            <option value="">-- Seleccione --</option>
-	            <option value="Macho">Macho</option>
-	            <option value="Hembra">Hembra</option>
-	        </select>
-	    </div>
+        <div class="mb-3">
+            <label class="form-label">Edad</label>
+            <input type="number" class="form-control" th:field="*{edad}" min="0" required />
+        </div>
 
-	    <div class="mb-3">
-	        <label class="form-label">Edad</label>
-	        <input type="number" class="form-control" th:field="*{edad}" min="0" required>
-	    </div>
+        <div class="mb-3">
+            <label class="form-label">Género</label>
+            <select class="form-select" th:field="*{genero}" required>
+                <option value="">-- Seleccione --</option>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+            </select>
+        </div>
 
-	    <div class="mb-3">
-	        <label class="form-label">Foto de la Mascota</label>
-	        <input type="file" class="form-control" name="fotoMascota" accept="image/*" required>
-	    </div>
+        <div class="mb-3">
+            <label class="form-label">Alergias</label>
+            <input type="text" class="form-control" th:field="*{alergias}" />
+        </div>
 
-	    <div class="text-end">
-	        <button type="submit" class="btn btn-primary">
-	            <i class="bi bi-save me-2"></i>Guardar Mascota
-	        </button>
-	    </div>
-	</form>
+        <div class="mb-3">
+            <label class="form-label">Comportamiento</label>
+            <select class="form-select" th:field="*{comportamiento}">
+                <option value="">-- Seleccione --</option>
+                <option value="Normal">Normal</option>
+                <option value="Agresivo">Agresivo</option>
+                <option value="Miedoso">Miedoso</option>
+                <option value="Tranquilo">Tranquilo</option>
+                <option value="Ansioso">Ansioso</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Foto de la Mascota</label>
+            <input type="file" class="form-control" name="fotoMascota" accept="image/*" required />
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save me-2"></i>Guardar Mascota
+            </button>
+        </div>
+    </form>
 </div>
 </body>
 </html>

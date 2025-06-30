@@ -217,100 +217,132 @@
 		    </button>
 		</div>
 
-    <!-- Formulario Agregar Mascota -->
-    <div id="formMascota" class="collapse mb-4">
-        <div class="card card-body">
-            <h5 class="card-title" id="formTitle">Nueva Mascota</h5>
-          
-			<form th:action="@{/guardar}" method="post" enctype="multipart/form-data" id="mascotaForm">
-				
-           <!--  <form th:action="@{/mascotas/guardar}" method="post" th:object="${mascota}">-->
-                <input type="hidden" name="id_mascota" id="mascotaId" value="0">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Especie</label>
-                        <input type="text" class="form-control" name="especie" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Raza</label>
-                        <input type="text" class="form-control" name="raza" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Edad</label>
-                        <input type="number" class="form-control" name="edad" min="0" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Genero</label>
-                        <input type="text" class="form-control" name="genero" required>
-                    </div>
-					<div class="col-md-6">
-					    <label class="form-label">Foto de la Mascota</label>
-					    <input type="file" class="form-control" name="fotoMascota" accept="image/*">
-					</div>
-                    <div class="col-md-6">
-                        <label class="form-label">Cliente</label>
-                        <select class="form-select" name="cliente.idCliente" required>
-                            <option value="">Seleccione un cliente...</option>
-                            <option th:each="cliente : ${clientes}"
-                                    th:value="${cliente.idCliente}"
-                                    th:text="${cliente.nombre + ' ' + cliente.apellido}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-success" id="btnGuardar">
-                        <i class="bi bi-save me-2"></i>Guardar
-                    </button>
-                    <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">
-                        <i class="bi bi-x-circle me-2"></i>Cancelar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+		<!-- Formulario Agregar Mascota -->
+		<div id="formMascota" class="collapse mb-4">
+		    <div class="card-body bg-light shadow-sm" style="border-radius: 10px;">
+		        <h5 class="card-title" id="formTitle">Nueva Mascota</h5>
 
-	<!-- Lista de Mascotas en Tarjetas -->
-	<div class="row">
-	    <div class="col-md-4 mb-4" th:each="mascota : ${mascotas}">
-	        <div class="card h-100 shadow-sm">
-				<img th:src="@{'/img_mascotas/' + ${mascota.imagen}}"
-				     class="card-img-top"
-				     alt="Imagen de Mascota"
-				     onerror="this.onerror=null;this.src='/img/mascota_default.jpg';">
+		        <form th:action="@{/guardar}" method="post" enctype="multipart/form-data" id="mascotaForm">
+		            <input type="hidden" name="id_mascota" id="mascotaId" value="0">
 
-	            <div class="card-body">
-	                <h5 class="card-title" th:text="${mascota.nombre}">Nombre</h5>
-	                <p class="card-text">
-	                    <strong>Edad:</strong> <span th:text="${mascota.edad}"></span> años<br>
-	                    <strong>Especie:</strong> <span th:text="${mascota.especie}"></span><br>
-	                    <strong>Raza:</strong> <span th:text="${mascota.raza}"></span><br>
-	                    <strong>Género:</strong> <span th:text="${mascota.genero}"></span><br>
-	                    <strong>Cliente:</strong> 
-	                    <span th:text="${mascota.cliente.nombre + ' ' + mascota.cliente.apellido}"></span>
-	                </p>
-	            </div>
-	            <div class="card-footer d-flex justify-content-between">
-	                <button class="btn btn-warning btn-sm"
-	                        th:onclick="'editarMascota(' + ${mascota.id_mascota} + ')'">
-	                    <i class="bi bi-pencil"></i> Editar
-	                </button>
-	                <form th:action="@{/mascotas/eliminar/{id}(id=${mascota.id_mascota})}"
-	                      method="post" style="display:inline;">
-	                    <button type="submit" class="btn btn-danger btn-sm"
-	                            onclick="return confirm('¿Estás seguro de eliminar esta mascota?')">
-	                        <i class="bi bi-trash"></i> Eliminar
-	                    </button>
-	                </form>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+		            <div class="row g-3">
+		                <div class="col-md-4">
+		                    <label class="form-label">Nombre</label>
+		                    <input type="text" class="form-control" name="nombre" required>
+		                </div>
+		                <div class="col-md-4">
+		                    <label class="form-label">Especie</label>
+		                    <input type="text" class="form-control" name="especie" required>
+		                </div>
+		                <div class="col-md-4">
+		                    <label class="form-label">Raza</label>
+		                    <input type="text" class="form-control" name="raza" required>
+		                </div>
+		                <div class="col-md-4">
+		                    <label class="form-label">Edad</label>
+		                    <input type="number" class="form-control" name="edad" min="0" required>
+		                </div>
+						<div class="col-md-4">
+						    <label class="form-label">Género</label>
+						    <select class="form-select" name="genero" required>
+						        <option value="">-- Seleccione --</option>
+						        <option value="Macho">Macho</option>
+						        <option value="Hembra">Hembra</option>
+						    </select>
+						</div>
+		                <div class="col-md-4">
+		                    <label class="form-label">Alergias</label>
+		                    <input type="text" class="form-control" name="alergias" placeholder="Ej: Penicilina, alimento seco">
+		                </div>
+		                <div class="col-md-4">
+		                    <label class="form-label">Comportamiento</label>
+		                    <select class="form-select" name="comportamiento">
+		                        <option value="">-- Seleccione --</option>
+		                        <option value="Normal">Normal</option>
+		                        <option value="Agresivo">Agresivo</option>
+		                        <option value="Miedoso">Miedoso</option>
+		                        <option value="Tranquilo">Tranquilo</option>
+		                        <option value="Ansioso">Ansioso</option>
+		                    </select>
+		                </div>
+						<!-- Campo de imagen se mostrara solo al crear  -->
+						<div class="col-md-4" id="fotoInputContainer">
+						    <label class="form-label">Foto de la Mascota</label>
+						    <input type="file" class="form-control" name="fotoMascota" accept="image/*">
+						</div>
 
+						<!-- Vista previa de la imagen actual-->
+						<div class="col-md-4 d-none" id="fotoVistaContainer">
+						    <label class="form-label">Foto actual</label><br>
+						    <img id="fotoActual" src="/img/mascota_default.jpg" alt="Foto actual" class="img-thumbnail" style="max-height: 160px;">
+						</div>
+		                <div class="col-md-4">
+		                    <label class="form-label">Cliente</label>
+		                    <select class="form-select" name="cliente.idCliente" required>
+		                        <option value="">Seleccione un cliente...</option>
+		                        <option th:each="cliente : ${clientes}"
+		                                th:value="${cliente.idCliente}"
+		                                th:text="${cliente.nombre + ' ' + cliente.apellido}">
+		                        </option>
+		                    </select>
+		                </div>
+		            </div>
+
+		            <div class="mt-4">
+		                <button type="submit" class="btn btn-success" id="btnGuardar">
+		                    <i class="bi bi-save me-2"></i>Guardar
+		                </button>
+		                <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">
+		                    <i class="bi bi-x-circle me-2"></i>Cancelar
+		                </button>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+		
+		<!-- Lista de Mascotas en Tarjetas -->
+		<div class="row">
+		    <div class="col-md-4 mb-4" th:each="mascota : ${mascotas}">
+		        <div class="card h-100 shadow-sm">
+					<img th:src="@{'/img_mascotas/' + ${mascota.imagen}}"
+					     class="card-img-top"
+					     alt="Imagen de Mascota"
+					     onerror="this.onerror=null;this.src='/img/mascota_default.jpg';">
+
+		            <div class="card-body">
+		                <h5 class="card-title" th:text="${mascota.nombre}">Nombre</h5>
+		                <p class="card-text">
+		                    <strong>Edad:</strong> <span th:text="${mascota.edad}"></span> años<br>
+		                    <strong>Especie:</strong> <span th:text="${mascota.especie}"></span><br>
+		                    <strong>Raza:</strong> <span th:text="${mascota.raza}"></span><br>
+							<strong>Alergias:</strong> <span th:text="${mascota.alergias}">-</span><br>
+							<strong>Comportamiento:</strong> <span th:text="${mascota.comportamiento}">-</span><br>
+		                    <strong>Género:</strong> <span th:text="${mascota.genero}"></span><br>
+		                    <strong>Cliente:</strong> 
+		                    <span th:text="${mascota.cliente.nombre + ' ' + mascota.cliente.apellido}"></span>
+		                </p>
+		            </div>
+		            <div class="card-footer d-flex justify-content-between">
+						<a th:href="@{/detalle-mascota/{id}(id=${mascota.idMascota})}" class="btn btn-info btn-sm">
+						       <i class="bi bi-search"></i> Ver Detalle
+						   </a>
+		                <button class="btn btn-warning btn-sm"
+		                        th:onclick="'editarMascota(' + ${mascota.idMascota} + ')'">
+		                    <i class="bi bi-pencil"></i> Editar
+		                </button>
+		                <form th:action="@{/mascotas/eliminar/{id}(id=${mascota.idMascota})}"
+		                      method="post" style="display:inline;">
+		                    <button type="submit" class="btn btn-danger btn-sm"
+		                            onclick="return confirm('¿Estás seguro de eliminar esta mascota?')">
+		                        <i class="bi bi-trash"></i> Eliminar
+		                    </button>
+							
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		
 		<!-- Si no hay mascotas -->
 		<div th:if="${#lists.isEmpty(mascotas)}" class="text-center text-muted">
 		    <i class="bi bi-inbox display-1"></i>
@@ -367,7 +399,8 @@
         limpiarFormulario();
     });
     
-    // ✅ Función para editar mascota
+	
+	// edicion de la mascota 
 	function editarMascota(id) {
 	    fetch('/mascotas/editar/' + id)
 	        .then(response => {
@@ -380,8 +413,15 @@
 	            document.querySelector('input[name="especie"]').value = mascota.especie;
 	            document.querySelector('input[name="raza"]').value = mascota.raza;
 	            document.querySelector('input[name="edad"]').value = mascota.edad;
-	            document.querySelector('input[name="genero"]').value = mascota.genero;
+	            document.querySelector('select[name="genero"]').value = mascota.genero;
+	            document.querySelector('select[name="comportamiento"]').value = mascota.comportamiento ?? "";
+	            document.querySelector('input[name="alergias"]').value = mascota.alergias ?? "";
 	            document.querySelector('select[name="cliente.idCliente"]').value = mascota.cliente.idCliente;
+
+	            // Ocultar campo input de foto y mostrar imagen
+	            document.getElementById('fotoInputContainer').classList.add('d-none');
+	            document.getElementById('fotoVistaContainer').classList.remove('d-none');
+	            document.getElementById('fotoActual').src = '/img_mascotas/' + (mascota.imagen ?? 'mascota_default.jpg');
 
 	            document.getElementById('mascotaForm').action = '/guardar';
 	            document.getElementById('formTitle').textContent = 'Editar Mascota';

@@ -54,8 +54,8 @@ public class MascotasController {
                                  @RequestParam("fotoMascota") MultipartFile file,
                                  RedirectAttributes redirectAttributes) {
         try {
-            if (mascota.getId_mascota() != null && mascota.getId_mascota() == 0) {
-                mascota.setId_mascota(null);
+            if (mascota.getIdMascota() != null && mascota.getIdMascota() == 0) {
+                mascota.setIdMascota(null);
             }
 
             if (!file.isEmpty()) {
@@ -109,6 +109,8 @@ public class MascotasController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    
 
     // Eliminar mascota desde formulario
     @PostMapping("/mascotas/eliminar/{id}")

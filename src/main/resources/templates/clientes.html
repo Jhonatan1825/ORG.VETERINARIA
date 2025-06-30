@@ -267,9 +267,10 @@
 	                            <a href="#" class="text-info" th:onclick="'abrirModalCita(' + ${cliente.idCliente} + ')'" title="Crear Cita">
 	                                <i class="bi bi-calendar-plus fs-4"></i>
 	                            </a>
-	                            <a href="#" class="text-success" th:onclick="'abrirModalMascota(' + ${cliente.idCliente} + ')'" title="Agregar Mascota">
-	                                <i class="bi bi-plus-circle fs-4"></i>
-	                            </a>
+								<a href="javascript:void(0)" class="text-success"
+								   th:onclick="'abrirModalMascota(' + ${cliente.idCliente} + ')'" title="Agregar Mascota">
+								    <i class="bi bi-plus-circle fs-4"></i>
+								</a>
 	                        </div>
 	                    </div>
 	                </div>
@@ -299,20 +300,22 @@
 	        </a>
 	    </div>
 	</footer>
-			<!-- Modal para Registrar Mascota -->
-			<div class="modal fade" id="modalMascota" tabindex="-1" aria-hidden="true">
-			    <div class="modal-dialog modal-lg">
-			        <div class="modal-content">
-			            <div class="modal-header bg-primary text-white">
-			                <h5 class="modal-title">Registrar Mascota</h5>
-			                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-			            </div>
-			            <div class="modal-body" id="contenidoModalMascota">
-			                <!-- Formulario cargado por AJAX -->
-			            </div>
-			        </div>
-			    </div>
-			</div>
+		
+	
+	<!-- Modal para Registrar Mascota -->
+	<div class="modal fade" id="modalMascota" tabindex="-1" aria-hidden="true">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header bg-primary text-white">
+	                <h5 class="modal-title">Registrar Mascota</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+	            </div>
+	            <div class="modal-body" id="contenidoModalMascota">
+	                <!-- Aquí se carga el formulario AJAX -->
+	            </div>
+	        </div>
+	    </div>
+	</div>	
 
 			<!-- Modal para agregar cita -->
 			<div class="modal fade" id="modalCita" tabindex="-1" aria-labelledby="modalCitaLabel" aria-hidden="true">
@@ -335,25 +338,24 @@
 <!-- Bootstrap JS -->
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> </script>
 
-<!-- Script para abrir modal y cargar formulario por AJAX -->
-			<script>
-			    function abrirModalMascota(idCliente) {
-			        fetch('/mascotas/form/' + idCliente)
-			            .then(response => {
-			                if (!response.ok) throw new Error("No se pudo cargar el formulario de mascota");
-			                return response.text();
-			            })
-			            .then(html => {
-			                document.getElementById('contenidoModalMascota').innerHTML = html;
-			                const modalMascota = new bootstrap.Modal(document.getElementById('modalMascota'));
-			                modalMascota.show();
-			            })
-			            .catch(error => {
-			                console.error('Error:', error);
-			                alert('Error al abrir el formulario de mascota');
-			            });
-			    }
-			</script>
+ <script>
+     function abrirModalMascota(idCliente) {
+         fetch('/mascotas/form/' + idCliente)
+             .then(response => {
+                 if (!response.ok) throw new Error("No se pudo cargar el formulario de mascota");
+                 return response.text();
+             })
+             .then(html => {
+                 document.getElementById('contenidoModalMascota').innerHTML = html;
+                 new bootstrap.Modal(document.getElementById('modalMascota')).show();
+             })
+             .catch(error => {
+                 console.error('Error:', error);
+                 alert('Error al abrir el formulario de mascota');
+             });
+     }
+ </script>
+
 
 
 			<script>

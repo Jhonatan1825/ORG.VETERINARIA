@@ -15,15 +15,15 @@
 
         <div class="mb-3">
             <label>Mascota</label>
-            <select class="form-select" th:field="*{mascota.id_mascota}" required>
-                <option th:each="m : ${mascotas}" th:value="${m.id_mascota}" th:text="${m.nombre}"></option>
+            <select class="form-select" th:field="*{mascota.idMascota}" required>
+                <option th:each="m : ${mascotas}" th:value="${m.idMascota}" th:text="${m.nombre}"></option>
             </select>
         </div>
 
         <div class="mb-3">
             <label>Veterinario</label>
             <select class="form-select" th:field="*{veterinario.id_veterinario}" required>
-                <option th:each="v : ${veterinarios}" th:value="${v.id_veterinario}" th:text="${v.nombre}"></option>
+                <option th:each="v : ${veterinarios}" th:value="${v. id_veterinario}" th:text="${v.nombre}"></option>
             </select>
         </div>
 
@@ -39,3 +39,4 @@
         </div>
     </form>
 </div>
+
