@@ -102,6 +102,7 @@
 		            <th>Servicio</th>
 		            <th>Veterinario</th>
 		            <th>Costo</th>
+					<th class="text-center">Factura</th>
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -111,6 +112,14 @@
 		            <td th:text="${cita.servicio.nombreServicio}">-</td>
 		            <td th:text="${cita.veterinario.nombre}">-</td>
 		            <td th:text="${cita.servicio.costo}">-</td>
+					<td class="text-center">
+					  <a th:href="@{'/facturas/generar/' + ${cita.id_cita}}" 
+					     class="btn btn-sm btn-outline-success" 
+					     title="Generar Factura en PDF" 
+					     target="_blank">
+					    <i class="bi bi-file-earmark-pdf-fill"></i> Factura
+					  </a>
+					</td>
 		        </tr>
 		    </tbody>
 		</table>

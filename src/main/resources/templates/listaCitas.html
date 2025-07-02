@@ -156,7 +156,7 @@
     <a href="/veterinarios"><i class="fas fa-file-medical fa-2x"></i><div>Veterinarios</div></a>
     <a href="/servicio"><i class="fas fa-concierge-bell fa-2x"></i><div>Servicios</div></a>
     <a href="/reportes"><i class="fas fa-chart-line fa-2x"></i><div>Reportes</div></a>
-    <a href="/facturacion"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+    <a href="/facturas"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
     <a href="javascript:history.back()" class="btn btn-success mb-4">
       <i class="fas fa-arrow-left me-2"></i> Volver
     </a>
@@ -186,24 +186,40 @@
         <table class="table table-hover table-bordered shadow-sm rounded-3">
           <thead class="table-dark text-center">
             <tr>
-              <th>ID</th>
               <th>Cliente</th>
               <th>Mascota</th>
-              <th>Veterinario</th>
+              <th>Veterinario <br> a Cargo </th>
               <th>Servicio</th>
               <th>Motivo</th>
               <th>Fecha y Hora</th>
+			  <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr th:each="cita : ${citas}">
-              <td th:text="${cita.id_cita}"></td>
+           
               <td th:text="${cita.cliente.nombre + ' ' + cita.cliente.apellido}"></td>
               <td th:text="${cita.mascota.nombre}"></td>
               <td th:text="${cita.veterinario.nombre}"></td>
               <td th:text="${cita.servicio.nombreServicio}"></td>
               <td th:text="${cita.motivo}"></td>
               <td th:text="${#dates.format(cita.fecha, 'yyyy-MM-dd HH:mm')}"></td>
+			  <td>
+			  
+				<div class="card-footer d-flex justify-content-center gap-2">
+						                <a href="#" class="icon"
+						                   th:onclick="'abrirModalEditarCita(' + ${cita.id_cita} + ')'">
+						                    <i class="bi bi-pencil"></i>
+						                </a>
+				
+				
+										<a href="@{/citas/eliminar/{idCita}(idCita=${cita.id_cita})}" class="icon"
+												                   th:onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
+												                    <i class="bi bi-trash"></i>
+												                </a>
+				
+						  </td>
+					</div>
             </tr>
             <tr th:if="${#lists.isEmpty(citas)}">
               <td colspan="7" class="text-center py-4">
@@ -240,6 +256,33 @@
     </div>
   </footer>
 
+  <!-- Modal para editar cita -->
+  <div class="modal fade" id="modalEditarCita" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title">Editar Cita</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="contenidoModalEditarCita"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function abrirModalEditarCita(idCita) {
+      fetch('/citas/editar/' + idCita)
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById("contenidoModalEditarCita").innerHTML = html;
+          new bootstrap.Modal(document.getElementById("modalEditarCita")).show();
+        })
+        .catch(err => alert("Error al cargar el formulario"));
+    }
+  </script>
+
+  
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

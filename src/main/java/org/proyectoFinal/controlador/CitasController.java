@@ -65,4 +65,35 @@ public class CitasController {
         model.addAttribute("citas", citas);
         return "listaCitas";
     }
+    
+ // Mostrar el formulario de edición en modal
+    @GetMapping("/editar/{idCita}")
+    public String mostrarFormularioEditar(@PathVariable("idCita") int idCita, Model model) {
+        Citas cita = citasUseCase.buscarPorId(idCita);
+        if (cita == null) return "error/404";
+
+        model.addAttribute("cita", cita);
+        model.addAttribute("veterinarios", veterinarioServicio.listarTodos());
+        model.addAttribute("servicios", servicioServicio.listarTodos());
+
+        return "formEditarCita :: formEditarCita";
+    }
+
+    // Guardar edición
+    @PostMapping("/actualizar")
+    public String actualizarCita(@ModelAttribute("cita") Citas cita, RedirectAttributes redirect) {
+        citasUseCase.registrarCita(cita); // Usa el mismo método save()
+        redirect.addFlashAttribute("success", "✅ Cita actualizada.");
+        return "redirect:/citas";
+    }
+
+    // Eliminar cita
+    @GetMapping("/eliminar/{idCita}")
+    public String eliminarCita(@PathVariable("idCita") int idCita, RedirectAttributes redirect) {
+        citasUseCase.eliminarPorId(idCita);
+        redirect.addFlashAttribute("warning", "❌ Cita eliminada.");
+        return "redirect:/citas";
+    }
+    
+    
 }

@@ -1,0 +1,50 @@
+<!-- formEditarCita.html -->
+<div th:fragment="formEditarCita">
+  <form th:action="@{/citas/actualizar}" method="post" th:object="${cita}">
+    <input type="hidden" th:field="*{id_cita}" />
+
+    <div class="mb-3">
+      <label>Fecha y Hora:</label>
+      <input type="datetime-local" th:field="*{fecha}" class="form-control" required>
+    </div>
+	<!-- Cliente (readonly) -->
+	<div class="mb-3">
+	  <label for="clienteNombre" class="form-label">Cliente</label>
+	  <input type="text" class="form-control" id="clienteNombre"
+	         th:value="${cita.cliente.nombre + ' ' + cita.cliente.apellido}" readonly>
+	  <!-- Campo oculto para enviar el ID -->
+	  <input type="hidden" name="cliente.idCliente" th:value="${cita.cliente.idCliente}">
+	</div>
+
+	<!-- Mascota (readonly) -->
+	<div class="mb-3">
+	  <label for="mascotaNombre" class="form-label">Mascota</label>
+	  <input type="text" class="form-control" id="mascotaNombre"
+	         th:value="${cita.mascota.nombre}" readonly>
+	  <!-- Campo oculto para enviar el ID -->
+	  <input type="hidden" name="mascota.idMascota" th:value="${cita.mascota.idMascota}">
+	</div>
+    <div class="mb-3">
+      <label>Motivo:</label>
+      <textarea th:field="*{motivo}" class="form-control" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Veterinario:</label>
+      <select th:field="*{veterinario.id_veterinario}" class="form-select" required>
+        <option th:each="v : ${veterinarios}" th:value="${v.id_veterinario}" th:text="${v.nombre}"></option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Servicio:</label>
+      <select th:field="*{servicio.id_servicio}" class="form-select" required>
+        <option th:each="s : ${servicios}" th:value="${s.id_servicio}" th:text="${s.nombreServicio}"></option>
+      </select>
+    </div>
+
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary">Actualizar</button>
+    </div>
+  </form>
+</div>

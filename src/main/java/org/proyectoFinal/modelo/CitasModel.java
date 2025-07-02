@@ -31,6 +31,10 @@ public class CitasModel implements CitasUseCase {
     public List<Citas> listarTodas() {
         return citasRepo.findAll();
     }
+    @Override
+    public void eliminarPorId(int idCita) {
+        citasRepo.deleteById(idCita);
+    }
 }
 
 

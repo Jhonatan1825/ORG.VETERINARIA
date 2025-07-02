@@ -166,7 +166,7 @@
 	    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formCliente">
 	        <i class="bi bi-plus-circle me-2"></i> Agregar Cliente
 	    </button>
-
+		
 	  
 	</div>
 	
@@ -181,7 +181,7 @@
 	    <a href="/veterinarios"><i class="fas fa-file-medical fa-2x"></i><div>Veterinarios</div></a>
 	    <a href="/servicio"><i class="fas fa-concierge-bell fa-2x"></i><div>Servicios</div></a>
 	    <a href="/reportes"><i class="fas fa-chart-line fa-2x"></i><div>Reportes</div></a>
-	    <a href="/facturacion"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+	    <a href="/facturas"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
 		<a href="javascript:history.back()" class="btn btn-success mb-4">
 					    <i class="fas fa-arrow-left me-2"></i> Volver
 					</a>
@@ -193,7 +193,7 @@
 	    <a href="/logout" class="logout-btn text-white"><i class="fas fa-sign-out-alt me-2"></i> Salir del sistema</a>
 	</div>
 	
-	
+
     <!-- Formulario Agregar Cliente -->
     <div id="formCliente" class="collapse mb-4">
         <div class="card card-body">
@@ -243,6 +243,8 @@
 	</div> 
 	<div class="main-content">
 	<!-- Tarjetas de Clientes -->
+	
+
 	<div class="row">
 	    <div th:if="${clientes != null and !clientes.isEmpty()}">
 	        <div class="row">
@@ -466,6 +468,8 @@
         limpiarFormulario();
     });
 </script>
+
+
 
 </body>
 </html>

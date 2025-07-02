@@ -8,7 +8,8 @@ public interface CitasUseCase {
     Citas registrarCita(Citas cita);
     List<Citas> listarCitasPorCliente(int idCliente);
     Citas buscarPorId(int idCita);
-    
+    void eliminarPorId(int idCita);
+
    
     List<Citas> listarTodas();
 }
