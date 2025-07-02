@@ -86,7 +86,8 @@
 	            </tbody>
 	        </table>
 	    </div>
-		
+	
+
 
 		<!-- Citas -->
 		<h4>Historial de Citas</h4>
@@ -118,6 +119,10 @@
 		    <a href="/mascotas" class="btn btn-secondary">
 		        ← Volver al listado
 		    </a>
+			<a th:href="@{'/diagnosticos/exportar-pdf/' + ${mascota.idMascota}}" class="btn btn-danger">
+				    <i class="bi bi-file-earmark-pdf"></i> Generar Historial PDF
+				</a>
+
 		</div>
 	
 		
