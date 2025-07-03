@@ -2,13 +2,11 @@ package org.proyectoFinal.repositorio;
 
 import java.util.Optional;
 
-import org.proyectoFinal.entidad.Usuario;
+import org.proyectoFinal.entidad.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer> {
-    
-    Optional<Usuario> findByUsername(String username);
-    
+public interface RolRepositorio extends JpaRepository<Rol, Integer> {
+    Optional<Rol> findByNombre(String nombre);
 }

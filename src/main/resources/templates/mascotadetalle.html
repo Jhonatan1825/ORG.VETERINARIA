@@ -44,10 +44,11 @@
         </div>
     </div>
 	
-	<!-- Botón para registrar diagnóstico -->
+	<li sec:authorize="hasAnyRole('ADMIN', 'VETERINARIO')">
 	<a href="javascript:void(0);" class="btn btn-primary" th:onclick="'abrirModalDiagnostico(' + ${mascota.idMascota} + ')'">
 	    <i class="bi bi-clipboard2-plus"></i> Registrar Diagnóstico
 	</a>
+	</li>
 	<!-- Modal Diagnóstico -->
 	<div class="modal fade" id="modalDiagnostico" tabindex="-1" aria-hidden="true">
 	    <div class="modal-dialog modal-lg">
@@ -102,7 +103,9 @@
 		            <th>Servicio</th>
 		            <th>Veterinario</th>
 		            <th>Costo</th>
+					<div sec:authorize="hasAnyRole('ADMIN', 'RECEPCION')">
 					<th class="text-center">Factura</th>
+					</div>
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -112,6 +115,7 @@
 		            <td th:text="${cita.servicio.nombreServicio}">-</td>
 		            <td th:text="${cita.veterinario.nombre}">-</td>
 		            <td th:text="${cita.servicio.costo}">-</td>
+					<div sec:authorize="hasAnyRole('ADMIN', 'RECEPCION')">
 					<td class="text-center">
 					  <a th:href="@{'/facturas/generar/' + ${cita.id_cita}}" 
 					     class="btn btn-sm btn-outline-success" 
@@ -120,6 +124,7 @@
 					    <i class="bi bi-file-earmark-pdf-fill"></i> Factura
 					  </a>
 					</td>
+					</div>
 		        </tr>
 		    </tbody>
 		</table>
@@ -128,10 +133,11 @@
 		    <a href="/mascotas" class="btn btn-secondary">
 		        ← Volver al listado
 		    </a>
-			<a th:href="@{'/diagnosticos/exportar-pdf/' + ${mascota.idMascota}}" class="btn btn-danger">
-				    <i class="bi bi-file-earmark-pdf"></i> Generar Historial PDF
-				</a>
-
+			<li sec:authorize="hasAnyRole('ADMIN', 'VETERINARIO')">
+				<a th:href="@{'/diagnosticos/exportar-pdf/' + ${mascota.idMascota}}" class="btn btn-danger">
+					    <i class="bi bi-file-earmark-pdf"></i> Generar Historial Medico PDF
+					</a>
+				</li>
 		</div>
 	
 		

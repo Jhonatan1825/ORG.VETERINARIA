@@ -147,16 +147,22 @@
 
   <!-- Barra lateral -->
   <div class="sidebar">
-    <a href="/bienvenido" class="text-white text-decoration-none">
-      <h3><i class="fas fa-paw"></i> Sistema Veterinaria</h3>
-    </a>
+	<a th:href="@{/inicio}" class="text-white text-decoration-none">
+			    <h3><i class="fas fa-paw"></i> Sistema Veterinaria</h3>
+			</a>
     <a href="/clientes"><i class="fas fa-users fa-2x"></i><div>Clientes</div></a>
     <a href="/mascotas"><i class="fas fa-paw fa-2x"></i><div>Mascotas</div></a>
     <a href="/citas"><i class="fas fa-calendar-alt fa-2x"></i><div>Citas</div></a>
     <a href="/veterinarios"><i class="fas fa-file-medical fa-2x"></i><div>Veterinarios</div></a>
     <a href="/servicio"><i class="fas fa-concierge-bell fa-2x"></i><div>Servicios</div></a>
-    <a href="/reportes"><i class="fas fa-chart-line fa-2x"></i><div>Reportes</div></a>
-    <a href="/facturas"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+	<div sec:authorize="hasAnyRole('ADMIN', 'RECEPCION')">
+					    <a href="/facturas"><i class="fas fa-file-invoice-dollar fa-2x"></i><div>Facturación</div></a>
+						</div>
+	<li sec:authorize="hasRole('ADMIN')">
+		<a th:href="@{/registro}" class="text-white text-decoration-none">
+		    <h3><i class="fas fa-user-plus"></i>  <br> Registrar <br> Usuario  <br> nuevo </h3>
+		</a>
+		</li>
     <a href="javascript:history.back()" class="btn btn-success mb-4">
       <i class="fas fa-arrow-left me-2"></i> Volver
     </a>
@@ -165,7 +171,11 @@
   <!-- Barra superior -->
   <div class="top-bar d-flex justify-content-between align-items-center">
     <div class="user-greeting">Hola, Administrador!</div>
-    <a href="/logout" class="logout-btn text-white"><i class="fas fa-sign-out-alt me-2"></i> Salir del sistema</a>
+	<form th:action="@{/logout}" method="post">
+	    <button type="submit" class="btn btn-link text-white logout-btn">
+	        <i class="fas fa-sign-out-alt me-2"></i> Salir del sistema
+	    </button>
+	</form>
   </div>
 
   <!-- Contenido principal -->
@@ -192,7 +202,9 @@
               <th>Servicio</th>
               <th>Motivo</th>
               <th>Fecha y Hora</th>
+			  <div sec:authorize="hasAnyRole('ADMIN', 'RECEPCION')">
 			  <th>Acciones</th>
+			  </div>
             </tr>
           </thead>
           <tbody>
@@ -205,7 +217,7 @@
               <td th:text="${cita.motivo}"></td>
               <td th:text="${#dates.format(cita.fecha, 'yyyy-MM-dd HH:mm')}"></td>
 			  <td>
-			  
+				<div sec:authorize="hasAnyRole('ADMIN', 'RECEPCION')">
 				<div class="card-footer d-flex justify-content-center gap-2">
 						                <a href="#" class="icon"
 						                   th:onclick="'abrirModalEditarCita(' + ${cita.id_cita} + ')'">
@@ -217,7 +229,7 @@
 												                   th:onclick="return confirm('¿Estás seguro de eliminar esta cita?')">
 												                    <i class="bi bi-trash"></i>
 												                </a>
-				
+																</div>
 						  </td>
 					</div>
             </tr>
